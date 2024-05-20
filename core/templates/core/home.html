@@ -1,0 +1,260 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - JRC Ferretería</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'core/img/logos/icon.webp' %}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/index.css' %}">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle"></i> About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'productos' %}"><i class="bi bi-journal"></i> Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contacto.html"><i class="bi bi-envelope"></i> Contáctanos</a>
+                </li>
+            </ul>
+            <form class="d-flex my-2 my-lg-0">
+                <input class="form-control me-2" type="search" placeholder="Buscar producto..." aria-label="Buscar">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- Carrusel -->
+<div id="carouselE1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+    <div class="carousel-inner">
+        <!-- Diapositiva 1 -->
+        <div class="carousel-item active">
+            <img src="{% static 'core/img/carrusel/silueta-construccion.jpg' %}" class="d-block w-100 img-fluid" alt="">
+            <div class="carousel-caption">
+                <h5 class="display-4">Nuestra historia</h5>
+                <p class="lead">
+                    Desde nuestros humildes comienzos hasta convertirnos en lo que somos hoy, nuestra historia es un testimonio de perseverancia, pasión y dedicación. Todo comenzó hace décadas, en un pequeño taller de carpintería donde nuestro fundador, Juan Rodríguez, trabajaba incansablemente para crear muebles de calidad con sus propias manos.
+                    Con el tiempo, la reputación de Juan por su habilidad y artesanía excepcional creció, y su pequeño taller se convirtió en un punto de referencia en la comunidad. Inspirado por su éxito y la demanda creciente de sus productos, Juan decidió expandir su negocio y fundó JRC Muebles.
+                    A lo largo de los años, hemos evolucionado y diversificado nuestra oferta de productos para satisfacer las necesidades cambiantes de nuestros clientes. Desde muebles clásicos y elegantes hasta modernos diseños innovadores, hemos mantenido nuestro compromiso con la calidad y la artesanía excepcional en cada pieza que producimos.
+                </p>
+            </div>
+        </div>
+        <!-- Segunda diapositiva -->
+        <div class="carousel-item">
+            <img src="{% static 'core/img/carrusel/trabajadores-examinando-obra.jpg' %}" class="d-block w-100 img-fluid" alt="Herramientas">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Las mejores herramientas</h5>
+                <p>Descubre nuestra amplia gama de herramientas de alta calidad.</p>
+                <p class="lead">
+                    En JRC Ferretería, nos enorgullece ser tu socio confiable en todos tus proyectos de construcción y renovación. Con años de experiencia en el mercado, nos hemos establecido como líderes en la industria, brindando a nuestros clientes una amplia gama de productos de alta calidad y un servicio excepcional.
+                    Nuestra misión es proporcionarte las herramientas y materiales necesarios para que tus proyectos sean un éxito. Ya sea que estés trabajando en un proyecto de bricolaje en casa o gestionando una obra de construcción a gran escala, nuestro equipo experto está aquí para ayudarte en cada paso del camino.
+                    En JRC Ferretería, nos esforzamos por ofrecerte una experiencia de compra sin problemas. Nuestro amplio catálogo incluye todo, desde herramientas manuales hasta maquinaria pesada, garantizando que encuentres exactamente lo que necesitas para completar tu proyecto de manera eficiente y dentro del presupuesto.
+                    Además de nuestra amplia selección de productos, nos enorgullece ofrecer un servicio al cliente excepcional.
+                </p>
+            </div>
+        </div>
+        <!-- Tercera diapositiva -->
+        <div class="carousel-item">
+            <img src="{% static 'core/img/carrusel/siluetas-sitio-construccion.jpg' %}" class="d-block w-100 img-fluid" alt="Materiales de construcción">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Materiales de construcción</h5>
+                <p>Todo lo que necesitas para tus proyectos de construcción a precios competitivos.</p>
+                <p class="lead">
+                    En JRC Ferretería, nos enorgullece ofrecerte una amplia selección de productos de calidad que cumplen con los más altos estándares de rendimiento y durabilidad. Desde herramientas manuales hasta equipos eléctricos, cada artículo en nuestro catálogo ha sido cuidadosamente seleccionado para garantizar su fiabilidad y eficacia.
+                    Trabajamos con los principales fabricantes y proveedores de la industria para asegurarnos de que nuestros clientes tengan acceso a productos que inspiren confianza en cada proyecto. Ya sea que estés buscando herramientas para tu próximo proyecto de bricolaje o suministros para una gran obra de construcción, puedes confiar en que encontrarás productos de calidad en JRC Ferretería.
+                    Además, nuestro equipo de expertos está siempre disponible para brindarte asesoramiento y recomendaciones sobre los productos que mejor se adapten a tus necesidades. Creemos en ofrecer un servicio excepcional junto con productos de calidad, para que puedas completar tus proyectos con confianza y tranquilidad.
+                </p>
+            </div>
+        </div>
+        <!-- Cuarta diapositiva -->
+        <div class="carousel-item">
+            <img src="{% static 'core/img/carrusel/iron-rods-474792_1280.jpg' %}" class="d-block w-100 img-fluid" alt="Atención al cliente">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Atención al cliente</h5>
+                <p>Contamos con un equipo experto listo para asesorarte en cada compra.</p>
+                <p class="lead">
+                    En JRC Ferretería, no solo nos destacamos por nuestra amplia gama de productos de calidad, sino también por nuestros servicios excepcionales. Nos esforzamos por brindar una experiencia de compra única y satisfactoria para cada cliente que nos visita.
+                    Nuestro equipo está comprometido en proporcionar un servicio personalizado y atento, desde el momento en que entras por nuestras puertas hasta que sales con tus productos. Estamos aquí para ayudarte a encontrar exactamente lo que necesitas, responder a tus preguntas y ofrecerte asesoramiento experto sobre herramientas y materiales.
+                    Además, ofrecemos servicios adicionales como entrega a domicilio, instalación de productos y asistencia técnica. Nos aseguramos de que tus necesidades sean atendidas de principio a fin, para que puedas completar tus proyectos con facilidad y tranquilidad.
+                    En JRC Ferretería, creemos que la excelencia en el servicio es tan importante como la calidad de los productos que ofrecemos.
+                </p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselE1" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselE1" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+    </button>
+</div>
+<!-- Section for Product Information -->
+<section class="product-info py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h5 class="display-4">Productos de calidad</h5>
+                <p class="lead">
+                    En JRC Ferretería, nos enorgullece ofrecerte una amplia selección de productos de calidad que cumplen con los más altos estándares de rendimiento y durabilidad. Desde herramientas manuales hasta equipos eléctricos, cada artículo en nuestro catálogo ha sido cuidadosamente seleccionado para garantizar su fiabilidad y eficacia.
+                    <br><br>
+                    Trabajamos con los principales fabricantes y proveedores de la industria para asegurarnos de que nuestros clientes tengan acceso a productos que inspiren confianza en cada proyecto. Ya sea que estés buscando herramientas para tu próximo proyecto de bricolaje o suministros para una gran obra de construcción, puedes confiar en que encontrarás productos de calidad en JRC Ferretería.
+                    <br><br>
+                    Además, nuestro equipo de expertos está siempre disponible para brindarte asesoramiento y recomendaciones sobre los productos que mejor se adapten a tus necesidades. Creemos en ofrecer un servicio excepcional junto con productos de calidad, para que puedas completar tus proyectos con confianza y tranquilidad. Descubre la diferencia que hace la calidad en JRC Ferretería.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Section for Product Information -->
+    <section class="product-info py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h5 class="display-4">Productos de calidad</h5>
+                    <p class="lead">
+                        En JRC Ferretería, nos enorgullece ofrecerte una amplia selección de productos de calidad que cumplen con los más altos estándares de rendimiento y durabilidad. Desde herramientas manuales hasta equipos eléctricos, cada artículo en nuestro catálogo ha sido cuidadosamente seleccionado para garantizar su fiabilidad y eficacia.
+                        <br><br>
+                        Trabajamos con los principales fabricantes y proveedores de la industria para asegurarnos de que nuestros clientes tengan acceso a productos que inspiren confianza en cada proyecto. Ya sea que estés buscando herramientas para tu próximo proyecto de bricolaje o suministros para una gran obra de construcción, puedes confiar en que encontrarás productos de calidad en JRC Ferretería.
+                        <br><br>
+                        Además, nuestro equipo de expertos está siempre disponible para brindarte asesoramiento y recomendaciones sobre los productos que mejor se adapten a tus necesidades. Creemos en ofrecer un servicio excepcional junto con productos de calidad, para que puedas completar tus proyectos con confianza y tranquilidad. Descubre la diferencia que hace la calidad en JRC Ferretería.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Sección de Productos -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Productos Destacados</h2>
+            <div class="row">
+                <!-- Tarjeta de Herramientas de Ferretería -->
+                <div class="col-12 col-md-6 col-lg-4 mb-3">
+                    <div class="card text-dark text-center bg-light pb-2 rounded shadow">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-4" style="font-family: 'Arial', sans-serif;">Herramientas de Ferretería</h3>
+                            <i class="bi bi-tools fs-2 mb-3"></i>
+                            <p class="card-text" style="font-family: 'Arial', sans-serif;">En JRC Ferretería ofrecemos una amplia gama de herramientas de ferretería de alta calidad para satisfacer todas tus necesidades. Desde destornilladores y martillos hasta sierras y llaves, tenemos todo lo que necesitas para tus proyectos de bricolaje y reparaciones domésticas. Nuestras herramientas están diseñadas para ofrecer un rendimiento confiable y duradero, garantizando que puedas completar tus tareas con facilidad y precisión.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta de Herramientas de Jardinería -->
+                <div class="col-12 col-md-6 col-lg-4 mb-3">
+                    <div class="card text-dark text-center bg-light pb-2 rounded shadow">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-4" style="font-family: 'Arial', sans-serif;">Herramientas de Jardinería</h3>
+                            <i class="bi bi-flower1 fs-2 mb-3"></i>
+                            <p class="card-text" style="font-family: 'Arial', sans-serif;">En JRC Ferretería también nos preocupamos por tu jardín. Ofrecemos una amplia selección de herramientas de jardinería de alta calidad para ayudarte a mantener tu espacio verde en perfecto estado. Desde cortadoras de césped y podadoras hasta palas y rastrillos, tenemos todo lo que necesitas para cuidar de tus plantas y flores. Nuestras herramientas de jardinería están diseñadas para ser duraderas y eficientes, facilitando tus tareas de jardinería y asegurando resultados excepcionales.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta de Materiales de Construcción -->
+                <div class="col-12 col-md-6 col-lg-4 mb-3">
+                    <div class="card text-dark text-center bg-light pb-2 rounded shadow">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-4" style="font-family: 'Arial', sans-serif;">Materiales de Construcción</h3>
+                            <i class="bi bi-bricks fs-2 mb-3"></i>
+                            <p class="card-text" style="font-family: 'Arial', sans-serif;">En JRC Ferretería ofrecemos una amplia selección de materiales de construcción de alta calidad para tus proyectos. Desde cemento y ladrillos hasta aislantes y herramientas especializadas, tenemos todo lo que necesitas para llevar a cabo tus proyectos de construcción con éxito. Nuestros materiales son seleccionados cuidadosamente para garantizar su durabilidad y rendimiento, proporcionándote la confianza y tranquilidad que necesitas en cada etapa de tu proyecto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Sección de Soporte, Descuentos y Envíos -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sección de Soporte -->
+                <div class="col-12 col-md-6 col-lg-4 mb-3">
+                    <div class="card text-center bg-white pb-2 rounded shadow" style="max-width: 350px;">
+                        <div class="card-body">
+                            <i class="bi bi-chat-dots fs-2 text-primary mb-3"></i>
+                            <h3 class="card-title fw-bold mb-4">Soporte</h3>
+                            <p class="card-text">Nuestro equipo de atención al cliente está disponible para ayudarte con cualquier pregunta o inquietud que tengas. ¡Contáctanos hoy mismo!</p>
+                            <a href="#" class="btn btn-primary">Contactar</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sección de Descuentos -->
+                <div class="col-12 col-md-6 col-lg-4 mb-3">
+                    <div class="card text-center bg-light pb-2 rounded shadow" style="max-width: 350px;">
+                        <div class="card-body">
+                            <i class="bi bi-percent fs-2 text-primary mb-3"></i>
+                            <h3 class="card-title fw-bold mb-4">Descuento</h3>
+                            <p class="card-text">¡Aprovecha nuestros descuentos especiales en una amplia selección de productos! Visita nuestra tienda hoy y descubre las mejores ofertas en herramientas, materiales de construcción y mucho más.</p>
+                            <a href="#" class="btn btn-primary">Ver ofertas</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sección de Envíos -->
+                <div class="col-12 col-md-6 col-lg-4 mb-3">
+                    <div class="card text-center bg-white pb-2 rounded shadow" style="max-width: 350px;">
+                        <div class="card-body">
+                            <i class="bi bi-truck fs-2 text-primary mb-3"></i>
+                            <h3 class="card-title fw-bold mb-4">Envíos</h3>
+                            <p class="card-text">Ofrecemos envío rápido y seguro a todo el país. Ya sea que estés en la ciudad o en el campo, puedes confiar en que tus productos llegarán a tiempo y en perfectas condiciones.</p>
+                            <a href="#" class="btn btn-primary">Más información</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Footer -->
+<footer class="footer bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <!-- Social Media Links -->
+            <div class="col-md-4 my-auto text-center text-md-left">
+                <p class="lead">Síguenos en nuestras redes sociales:</p>
+                <div class="social-links">
+                    <a href="#" class="me-3 text-white"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-3 text-white"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="col-md-4 my-auto text-center">
+                <p class="lead">Contáctanos:</p>
+                <p><i class="bi bi-geo-alt-fill"></i> Av. Príncipe de Gales #927, Santiago, Chile</p>
+                <p><i class="bi bi-telephone-fill"></i> +56 9 2861 395</p>
+                <p><i class="bi bi-envelope-fill"></i> info@jrcferreteria.com</p>
+            </div>
+
+            <!-- Developer Information -->
+            <div class="col-md-4 my-auto text-center text-md-right">
+                <p class="lead">Desarrollado por:</p>
+                <p><span class="brand">Doofenshmirtz Malvados y Asociados</span></p>
+            </div>
+        </div>
+    </div>
+</footer>    
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

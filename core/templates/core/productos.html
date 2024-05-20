@@ -1,0 +1,230 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - JRC Ferretería</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'core/img/logos/icon.webp' %}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/index.css' %}">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navbar -->
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle"></i> About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'productos' %}"><i class="bi bi-journal"></i> Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contacto.html"><i class="bi bi-envelope"></i> Contáctanos</a>
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="filterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-filter"></i> Filtrar por Precio
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
+                            <li><a class="dropdown-item" href="#">$0 - $50</a></li>
+                            <li><a class="dropdown-item" href="#">$50 - $100</a></li>
+                            <li><a class="dropdown-item" href="#">$100 - $200</a></li>
+                            <li><a class="dropdown-item" href="#">$200+</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <form class="d-flex my-2 my-lg-0">
+                <input class="form-control me-2" type="search" placeholder="Buscar producto..." aria-label="Buscar">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<body>
+    <!-- Contenido de la página -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Tarjeta de producto 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src= "{% static 'core/img/herramientas/211346-800-auto.webp' %}" class="card-img-top" alt="Producto 1">
+                    <div class="card-body">
+                        <h5 class="card-title">STANLEY ESMERIL ANGULAR 4 1/2" 750 W SG7115B2C DW + 10 DISCOS DE REGALO STANLEY</h5>
+                        <p class="card-text">Esmeril con óptima salida de flujo de aire que evita el sobrecalentamiento del motor. Incluye 10 discos de corte ultrafino para metal inoxidable, lo que ofrece cortes más rápidos y precisos.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $24.990 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Estanley Esmeril.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 1 -->
+
+            <!-- Tarjeta de producto 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card"> 
+                    <img src= "{% static 'core/img/herramientas/soldadora.webp' %}" class="card-img-top" alt="Producto 2">
+                    <div class="card-body">
+                        <h5 class="card-title">SOLDADORA INVERSORA INDURARC 120</h5>
+                        <p class="card-text">La máquina de soldar inversora INDURARC 120 utiliza IGBTs (transistores de conmutación rápida de avanzada tecnología) como componente principal de su sistema electrónico, los que han sido especialmente desarrollados para controlar y mantener estable el arco eléctrico al momento de soldar.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $79.990 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Soladora.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 2 -->
+
+            <!-- Tarjeta de producto 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'core/img/herramientas/196408-800---auto.webp' %}" class="card-img-top" alt="Producto 3">
+                    <div class="card-body">
+                        <h5 class="card-title">STANLEY SIERRA CIRCULAR 7 1/4" 1600 W</h5>
+                        <p class="card-text">Como parte de la gama de herramientas eléctricas con cable STANLEY FATMAX®, esta sierra circular tiene un potente motor de 1.600 W y ofrece un verdadero rendimiento profesional. Una sierra circular es imprescindible en todos los sentidos.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $30.00 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Estanley sierra.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 3 -->
+
+            <!-- Tarjeta de producto 4 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'core/img/construccion/194827-300-300.webp' %}" class="card-img-top" alt="Producto 4">
+                    <div class="card-body">
+                        <h5 class="card-title">VOLCÁN ROLLO LANA DE VIDRIO LIBRE R94 40 MM 1,2 X 24 MT 28,8 M2</h5>
+                        <p class="card-text">Es una de las opciones más seguras y eficientes para el aislamiento térmico y acústico en el mercado actual. Este material aislante es altamente resistente al fuego y a altas temperaturas, lo que lo hace ideal para su uso en aplicaciones industriales y comerciales donde se requiere un alto nivel de seguridad y protección.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $41.570 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Volcan rollo lana.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 4 -->
+
+            <!-- Tarjeta de producto 5 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'core/img/construccion/207490-300-300.webp' %}" class="card-img-top" alt="Producto 5">
+                    <div class="card-body">
+                        <h5 class="card-title">VOLCÁN HUINCHA JUNTAPRO FV 50 MM 45 MT</h5>
+                        <p class="card-text">La Cinta de Fibra de Vidrio JuntaPro Volcán® consiste en una malla de fibra de vidrio autoadhesiva, que posee una gran resistencia mecánica, y que se usa en el tratamiento de juntas invisibles de tabiques. Se puede aplicar a tabiquería, techos, elementos decorativos. Está dirigida al tratamiento de unión de planchas Volcanita.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $3.590 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Volcan huincha.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 5 -->
+
+            <!-- Tarjeta de producto 6 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'core/img/construccion/193849-300-300.webp' %}" class="card-img-top" alt="Producto 6">
+                    <div class="card-body">
+                        <h5 class="card-title">ACMA CADENA 15 X 30 CM 4,5 MT FE 9,2 MM</h5>
+                        <p class="card-text">Esta diseñada para soportar elevadas cargas, indispensable su uso en trabajos industriales y de construcción para armadura y refuerzo de estructura de marco, coronamiento de albañilerías, coronamiento de muros cortafuego, vanos de puertas y ventanas. Se emplea frecuentemente en vivienda de 1 o 2 pisos sobrecimientos.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $23.990 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Acma cadena.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 6 -->
+
+            <!-- Tarjeta de producto 7 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'core/img/construccion/194832-300-300.webp' %}" class="card-img-top" alt="Producto 7">
+                    <div class="card-body">
+                        <h5 class="card-title">VOLCÁN VOLCANITA ESTÁNDAR BORDE BISELADO 8 MM 1,2 X 2,4 MT</h5>
+                        <p class="card-text">Las planchas yeso cartón estándar son usadas en tabiques divisorios, cielos, revestimientos de muro y soluciones constructivas tales como tabique estructural y tabique volcometal. Puede ser parte integrante de tabiques que cumplen con necesidades de aislamiento acústico.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $6.690 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Volcanita.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 7 -->
+
+            <!-- Tarjeta de producto 8 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src= "{% static 'core/img/construccion/194011-300-300.webp' %}" class="card-img-top" alt="Producto 8">
+                    <div class="card-body">
+                        <h5 class="card-title">INCHALAM MALLA HARNERO N°8 0,6 X 1,5 MT</h5>
+                        <p class="card-text">Malla tejida de alambre, fabricada especialmente para realizar tus trabajos de tamizado o limpieza de semillas. Su uso varía entre tamizado de tierra para jardín, tamizado de arena para mezcla y estuco, limpieza de semillas.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $14.990 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Inchalam malla.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 8 -->
+
+            <!-- Tarjeta de producto 9 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src= "{% static 'core/img/construccion/206793-300-300.webp' %}" class="card-img-top" alt="Producto 9">
+                    <div class="card-body">
+                        <h5 class="card-title">INPPA TEJA ASTURIAS LÍNEA CONTINUA 0,4 X 1010 X 3660 MM NEGRA</h5>
+                        <p class="card-text">Ideal para ampliaciones, cobertizos, entre otros, de gran durabilidad. Ofrece gran maniobrabilidad por su bajo peso al momento de instalar y proporciona alta resistencia al impacto, como así también cuando se ejecutan cargas puntuales dada su conformación en acero. Sus atributos son que es de acero prepintado.</p>
+                        <p class="card-text"><i class="bi bi-currency-dollar"></i> $30.390 C/U</p>
+                        <div class="delivery-icons">
+                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <a href="Teja.html" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la tarjeta de producto 9 -->
+        </div>
+    </div>
+</body>
