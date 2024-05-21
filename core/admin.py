@@ -1,5 +1,4 @@
 from django.contrib import admin # type: ignore
-
 from core.models import Empleado, Genero, Marca, Producto, TipoEmpleado, TipoHerramienta # type: ignore
 
 # Register your models here.
