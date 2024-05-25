@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import locale
 from .models import Producto
+from .forms import ContactoForm, RegistroForm
 
 # Configurar la localización para CLP
 locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8')
@@ -27,7 +28,28 @@ def productos(request):
 
 # Vista para la página de contacto
 def contacto(request):
-    return render(request, 'core/contacto.html')
+    if request.method == 'POST':
+        form = ContactoForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            telefono = form.cleaned_data['telefono']
+            asunto = form.cleaned_data['asunto']
+            mensaje = form.cleaned_data['mensaje']
+            tipo_contacto = form.cleaned_data['tipo_contacto']
+
+            # Enviar correo electrónico (configura el correo en settings.py)
+            send_mail(
+                asunto,
+                f"Nombre: {nombre}\nCorreo: {correo}\nTeléfono: {telefono}\nTipo de contacto: {tipo_contacto}\n\nMensaje:\n{mensaje}",
+                'tu_correo@example.com',  # Cambia esto por tu correo
+                ['destinatario@example.com'],  # Cambia esto por el destinatario
+                fail_silently=False,
+            )
+            return redirect('contacto')
+    else:
+        form = ContactoForm()
+    return render(request, 'core/contacto.html', {'form': form})
 
 # Vista para productos específicos
 def estanley_esmeril(request):
@@ -122,7 +144,7 @@ def soldadora_dw(request):
 def herramientas(request):
     return render(request, 'core/herramientas.html')
 
-# Vistas para la autenticación
+# Vista para la autenticación
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -143,14 +165,16 @@ def logout_view(request):
 
 def register_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        email = request.POST['email']
-        user = User.objects.create_user(username, email, password)
-        login(request, user)
-        return redirect('home')
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            return redirect('home')
     else:
-        return render(request, 'core/register.html')
+        form = RegistroForm()
+    return render(request, 'core/register.html', {'form': form})
 
 def profile_view(request):
     return render(request, 'core/profile.html')

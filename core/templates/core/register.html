@@ -79,34 +79,7 @@
     <h2>Registrarse</h2>
     <form method="post" id="registerForm">
         {% csrf_token %}
-        <div class="mb-3">
-            <label for="username" class="form-label">Nombre de usuario</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <div class="mb-3">
-            <label for="first_name" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="first_name" name="first_name" required>
-        </div>
-        <div class="mb-3">
-            <label for="last_name" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" required>
-        </div>
-        <div class="mb-3">
-            <label for="user_type" class="form-label">Tipo de usuario</label>
-            <select class="form-select" id="user_type" name="user_type" required>
-                <option value="cliente">Cliente</option>
-                <option value="bodeguero">Bodeguero</option>
-                <option value="contador">Contador</option>
-            </select>
-        </div>
+        {{ form.as_p }}
         {% if error %}
         <div class="alert alert-danger" role="alert">
             {{ error }}

@@ -1,9 +1,11 @@
-# core/urls.py
+# mysite/urls.py
 
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
+from core import views
 
 urlpatterns = [
+    path('admin/', admin.site.urls),  # Correct inclusion of admin URLs without namespace argument
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('productos/', views.productos, name='productos'),
