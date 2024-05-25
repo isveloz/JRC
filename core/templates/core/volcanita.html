@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estanley Esmeril</title>
+    <title>Volcán Volcanita</title>
 
     <!-- Favicon -->
     <link rel="icon" href="{% static 'core/img/logos/icon.webp' %}" type="image/x-icon">
@@ -72,10 +72,10 @@
                         <i class="bi bi-journal"></i> Productos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los Productos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los productos</a></li>
                         <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="herramientas">Herramientas</a></li>
-                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="materiales">Materiales de Construcción</a></li>
-                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="electricos">Accesorios Eléctricos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="materiales">Materiales de construcción</a></li>
+                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="electricos">Accesorios eléctricos</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -96,17 +96,18 @@
             <!-- Tarjeta del producto -->
             <div class="col-md-6 mb-5">
                 <div class="card">
-                    <img src="{% static 'core/img/herramientas/211346-800-auto.webp' %}" class="card-img-top" alt="Producto 1" style="width: 600px; height: 600px;">
+                    <img src="{% static 'core/img/construccion/194832-300-300.webp' %}" class="card-img-top" alt="Producto 1" style="width: 600px; height: 600px;">
                     <div class="card-body">
-                        <h2 class="card-title">STANLEY ESMERIL ANGULAR 4 1/2" 750 W SG7115B2C DW + 10 DISCOS DE REGALO STANLEY</h2>
-                        <p class="card-text">Esmeril con óptima salida de flujo de aire que evita el sobrecalentamiento del motor. Incluye 10 discos de corte ultrafino para metal inoxidable, lo que ofrece cortes más rápidos y precisos.</p>
-                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;"><span class="badge bg-success">Oferta</span> <i class="bi bi-currency-dollar"></i> <span id="price" data-price="24990">24.990</span> C/U</p>
+                        <h2 class="card-title">Volcán Volcanita estándar biselado 8 mm 1,2 x 2,4 mt</h2>
+                        <p class="card-text">Las planchas yeso cartón estándar son usadas en tabiques divisorios, cielos, revestimientos de muro y soluciones constructivas tales como tabique estructural y tabique volcometal.</p>
+                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;"><span class="badge bg-success">Oferta</span> <i class="bi bi-currency-dollar"></i> <span id="price" data-price="6690">6.690</span> C/U</p>
                     </div>
                 </div>
             </div>
             <!-- Segunda tarjeta -->
             <div class="col-md-6 mx-auto mb-5">
                 <div class="card">
+                    <!-- Contenido de la segunda tarjeta -->
                     <div class="card-body">
                         <!-- Términos y condiciones -->
                         <h5 class="card-title">Términos y condiciones</h5>
@@ -121,6 +122,17 @@
                             <li><i class="bi bi-wallet2"></i> Pago móvil</li>
                         </ul>
 
+                        <!-- Cantidades a elegir -->
+                        <h5 class="card-title">Cantidades a elegir</h5>
+                        <p class="card-text">Selecciona la cantidad deseada:</p>
+                        <select id="quantity" class="form-select mb-3">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
                         <!-- Métodos de entrega -->
                         <h5 class="card-title">Métodos de entrega</h5>
                         <p class="card-text">Tenemos varias opciones para que recibas tu pedido:</p>
@@ -131,19 +143,15 @@
                             <li><i class="bi bi-geo-alt"></i> Entrega en domicilio (servicio premium) - Costo adicional de $15.490</li>
                         </ul>
 
-                                                <!-- Cantidades a elegir -->
-                                                <h5 class="card-title">Cantidades a elegir</h5>
-                                                <p class="card-text">Selecciona la cantidad deseada:</p>
-                                                <select id="quantity" class="form-select mb-3">
-                                                    <option value="1" selected>1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                </select>
                         <!-- Botón de compra -->
-                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;">Total: <i class="bi bi-currency-dollar"></i> <span id="total">24.990</span></p>
+                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;">Total: <i class="bi bi-currency-dollar"></i> <span id="total">6.690</span></p>
                         <a href="#" id="add-to-cart" class="btn btn-primary cart-animation"><i class="bi bi-cart-plus"></i> Añadir al carrito</a>
+
+                        <!-- Logos -->
+                        <div class="mt-3">
+                            <img src="{% static 'core/img/logos/mercadopago-logo-FC9BA7420E-seeklogo.com.png' %}" alt="Logo 1" class="me-2">
+                            <img src="{% static 'core/img/logos/1.Webpay_FB_300px.png' %}" alt="Logo 2" class="me-2">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,22 +165,22 @@
     <div class="row">
         <div class="col-md-6">
             <div class="review">
-                <h4><i class="bi bi-person-circle"></i> David</h4>
-                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> Excelente producto, muy útil y de buena calidad. Lo recomendaría a cualquier persona interesada en este tipo de productos.</p>
+                <h4><i class="bi bi-person-circle"></i>Claudio</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> Excelente producto, muy útil y de buena calidad. Lo recomendaría a cualquier persona interesada en este tipo de productos. Salvame Jesus</p>
             </div>
             <div class="review">
-                <h4><i class="bi bi-person-circle"></i> Franco</h4>
-                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> El producto cumple con mis expectativas, aunque la entrega fue un poco lenta. En general, estoy satisfecho con mi compra.</p>
+                <h4><i class="bi bi-person-circle"></i>Pablo</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> El producto cumple con mis expectativas, aunque la entrega fue un poco lenta. En general, estoy satisfecho con mi compra. Toi entero loco sushetumaree</p>
             </div>
         </div>
         <div class="col-md-6">
             <div class="review">
-                <h4><i class="bi bi-person-circle"></i> Antonia</h4>
-                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> Buen producto, pero tuve algunos problemas con la instalación. El servicio al cliente fue útil para resolver mis dudas.</p>
+                <h4><i class="bi bi-person-circle"></i>Antonio</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> Buen producto, pero tuve algunos problemas con la instalación. El servicio al cliente fue útil para resolver mis dudas. Awante el colo oe si</p>
             </div>
             <div class="review">
-                <h4><i class="bi bi-person-circle"></i> Mateo</h4>
-                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> ¡Increíble! Este producto superó mis expectativas. Lo uso a diario y no he tenido ningún problema hasta ahora.</p>
+                <h4><i class="bi bi-person-circle"></i>Pierre</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> ¡Increíble! Este producto superó mis expectativas. Lo uso a diario y no he tenido ningún problema hasta ahora. Al Mateo me lo paso por los cocos</p>
             </div>
         </div>
     </div>
@@ -207,7 +215,7 @@
             </div>
         </div>
     </div>
-</footer>    
+</footer>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
