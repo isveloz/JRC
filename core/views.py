@@ -1,7 +1,7 @@
 import locale
-from django.core.paginator import Paginator # type: ignore
-from django.shortcuts import render # type: ignore
-from django.http import JsonResponse # type: ignore
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.http import JsonResponse
 from .models import Producto
 
 # Configurar la localización para CLP
@@ -79,7 +79,7 @@ def rodillo(request):
 def pasta_muro(request):
     return render(request, 'core/pasta_muro.html')
 
-def pasta_muro(request):
+def electricos(request):
     return render(request, 'core/electricos.html')
 
 # Vista para calcular el precio total
@@ -97,3 +97,25 @@ def calcular_precio(request):
     except (TypeError, ValueError):
         # Manejar errores de tipo de datos incorrectos en la solicitud
         return JsonResponse({'error': 'Los parámetros cantidad y precio_unitario deben ser números válidos.'})
+
+# Vistas para productos específicos
+def bateria_ion(request):
+    return render(request, 'core/bateria_ion.html')
+
+def compresor_ack_24(request):
+    return render(request, 'core/compresor_ack_24.html')
+
+def compresor_ack(request):
+    return render(request, 'core/compresor_ack.html')
+
+def hidrolavadora_k3(request):
+    return render(request, 'core/hidrolavadora_k3.html')
+
+def placa_compactadora(request):
+    return render(request, 'core/placa_compactadora.html')
+
+def soldadora_dw(request):
+    return render(request, 'core/soldadora_dw.html')
+
+def soldadora_dw(request):
+    return render(request, 'core/herramientas.html')

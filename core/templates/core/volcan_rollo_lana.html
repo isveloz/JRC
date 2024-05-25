@@ -49,10 +49,13 @@
     </script>
 </head>
 <body>
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -69,10 +72,10 @@
                         <i class="bi bi-journal"></i> Productos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los productos</a></li>
-                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="herramientas">Herramientas</a></li>
-                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="materiales">Materiales de construcción</a></li>
-                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="electricos">Accesorios eléctricos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los Productos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'materiales' %}" data-filter="materiales">Materiales de Construcción</a></li>
+                        <li><a class="dropdown-item" href="{% url 'electricos' %}" data-filter="electricos">Accesorios Eléctricos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'herramientas' %}" data-filter="herramientas">Herramientas</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
