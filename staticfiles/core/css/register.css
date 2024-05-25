@@ -1,0 +1,38 @@
+.registration-form {
+    max-width: 600px;
+    margin: auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+.registration-form .form-control:invalid {
+    border-color: #dc3545;
+}
+
+.registration-form .form-control:valid {
+    border-color: #28a745;
+}
+
+.success-message {
+    display: none;
+    text-align: center;
+    color: #28a745;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+.success-message.active {
+    display: block;
+    animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

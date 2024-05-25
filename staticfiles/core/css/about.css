@@ -1,0 +1,97 @@
+/* Estilos básicos */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link {
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #FFD700; /* Cambia el color al pasar el ratón */
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Animaciones para el carrusel */
+.carousel-item {
+    animation: slideIn 1s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Efecto de fade-in para las imágenes de socios */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.card-img-top {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Estilo del footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+}
+
+.footer a {
+    color: #FFD700; /* Color dorado para los enlaces del footer */
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #fff; /* Cambia el color al pasar el ratón */
+}
+
+/* Estilos adicionales para las tarjetas */
+.card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+    }
+    
+    .carousel-caption {
+        font-size: 1rem;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+}
