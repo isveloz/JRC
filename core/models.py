@@ -50,20 +50,21 @@ class Empleado(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellidoP} {self.apellidoM}"
 
-class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart')
-    created_at = models.DateTimeField(auto_now_add=True)
+class Carrito(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='carrito')
+    creado_en = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Cart({self.user})"
+        return f"Carrito({self.usuario})"
 
-class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+class CarritoItem(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='items')
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.nombre}"
+        return f"{self.cantidad} x {self.producto.nombre}"
 
-    def total_price(self):
-        return self.product.precio * self.quantity
+    def precio_total(self):
+        return self.producto.precio * self.cantidad

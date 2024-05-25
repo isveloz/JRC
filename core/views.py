@@ -2,15 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse  # Añade esta línea
-from .models import Producto, Cart, CartItem
+from .models import Producto, Carrito, CarritoItem  # Actualizado a Carrito y CarritoItem
 from .forms import AddToCartForm, ContactoForm, RegistroForm
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 import locale
-from django.db.models import Q # type: ignore
-from django.shortcuts import render, get_object_or_404
-from .models import Producto
+from django.db.models import Q  # type: ignore
 
 # Configurar la localización para CLP
 locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8')
@@ -36,7 +34,7 @@ def calcular_precio(request):
 
         # Formatear el total en CLP
         total_clp = locale.format_string("%.0f", total, grouping=True)
-        
+
         response_data = {'total': total_clp}
         return JsonResponse(response_data)
     except (TypeError, ValueError):
@@ -75,8 +73,8 @@ def contacto(request):
             send_mail(
                 asunto,
                 f"Nombre: {nombre}\nCorreo: {correo}\nTeléfono: {telefono}\nTipo de contacto: {tipo_contacto}\n\nMensaje:\n{mensaje}",
-                'tu_correo@example.com',  # Cambia esto por tu correo
-                ['destinatario@example.com'],  # Cambia esto por el destinatario
+                'tu_correo@example.com',
+                ['destinatario@example.com'],
                 fail_silently=False,
             )
             messages.success(request, 'Tu mensaje ha sido enviado correctamente.')
@@ -101,8 +99,8 @@ def submit_contact_form(request):
             send_mail(
                 asunto,
                 f"Nombre: {nombre}\nCorreo: {correo}\nTeléfono: {telefono}\nTipo de contacto: {tipo_contacto}\n\nMensaje:\n{mensaje}",
-                'tu_correo@example.com',  # Cambia esto por tu correo
-                ['destinatario@example.com'],  # Cambia esto por el destinatario
+                'tu_correo@example.com',
+                ['destinatario@example.com'],
                 fail_silently=False,
             )
             messages.success(request, 'Tu mensaje ha sido enviado correctamente.')
@@ -119,14 +117,71 @@ def submit_newsletter_form(request):
             send_mail(
                 'Suscripción al boletín',
                 f"El correo {correo} se ha suscrito al boletín.",
-                'tu_correo@example.com',  # Cambia esto por tu correo
-                ['destinatario@example.com'],  # Cambia esto por el destinatario
+                'tu_correo@example.com',
+                ['destinatario@example.com'],
                 fail_silently=False,
             )
             messages.success(request, 'Te has suscrito correctamente al boletín.')
             return redirect('home')
     messages.error(request, 'Hubo un error al suscribirte al boletín. Por favor, intenta de nuevo.')
     return redirect('home')
+
+# Vista para el carrito de compras
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Producto, id=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    cart_item.quantity += 1  # Ajusta esta lógica según sea necesario
+    cart_item.save()
+    messages.success(request, f'Added {product.nombre} to your cart.')
+    return redirect('cart_view')
+
+@login_required
+def cart_view(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    return render(request, 'core/cart.html', {'cart': cart})
+
+@login_required
+def remove_from_cart(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    cart_item.delete()
+    messages.success(request, 'Item removed from cart.')
+    return redirect('cart_view')
+
+# Vista para la autenticación
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'core/login.html', {'error': 'Usuario o contraseña incorrectos'})
+    else:
+        return render(request, 'core/login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = RegistroForm()
+    return render(request, 'core/register.html', {'form': form})
+
+def profile_view(request):
+    return render(request, 'core/profile.html')
 
 # Vistas de productos específicos
 def estanley_esmeril(request):
@@ -301,3 +356,11 @@ def herramientas(request):
 def producto_detalle(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     return render(request, 'core/producto_detalle.html', {'producto': producto})
+
+# Vista para bodeguero
+def bodeguero_view(request):
+    return render(request, 'core/bodeguero.html')
+
+# Vista para contador
+def contador_view(request):
+    return render(request, 'core/contador.html')

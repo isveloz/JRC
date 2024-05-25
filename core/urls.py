@@ -1,9 +1,5 @@
-from django.urls import path # type: ignore
+from django.urls import path
 from . import views
-from django.conf.urls.static import static # type: ignore
-from django.conf import settings # type: ignore
-from django.contrib.auth import login, logout, authenticate # type: ignore
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # type: ignore
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -38,7 +34,7 @@ urlpatterns = [
     path('hidrolavadora_k3/', views.hidrolavadora_k3, name='hidrolavadora_k3'),
     path('placa_compactadora/', views.placa_compactadora, name='placa_compactadora'),
     path('soldadora_dw/', views.soldadora_dw, name='soldadora_dw'),
-    path('calcular_precio/', views.calcular_precio, name='calcular_precio'),  # Añadir esta línea
+    path('calcular_precio/', views.calcular_precio, name='calcular_precio'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
@@ -46,5 +42,6 @@ urlpatterns = [
     path('herramientas/', views.herramientas, name='herramientas'),
     path('buscar/', views.buscar_productos, name='buscar_productos'),
     path('producto/<int:producto_id>/', views.producto_detalle, name='producto_detalle'),
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('bodeguero/', views.bodeguero_view, name='bodeguero'),
+    path('contador/', views.contador_view, name='contador'),
+]
