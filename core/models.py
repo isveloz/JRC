@@ -32,6 +32,7 @@ class Producto(models.Model):
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to="productos", null=True)
     precio = models.IntegerField(default=0)  # Añadir valor predeterminado aquí
+    categoria = models.CharField(max_length=50)  # Agregar campo categoria
 
     def __str__(self):
         return self.nombre

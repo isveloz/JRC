@@ -15,10 +15,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
             <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,10 +31,17 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door"></i> Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle"></i> About us</a>
+                    <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle"></i> Nosotros</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'productos' %}"><i class="bi bi-journal"></i> Productos</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal"></i> Productos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los Productos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'materiales' %}" data-filter="materiales">Materiales de Construcción</a></li>
+                        <li><a class="dropdown-item" href="{% url 'electricos' %}" data-filter="electricos">Accesorios Eléctricos</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contacto' %}"><i class="bi bi-envelope"></i> Contáctanos</a>
