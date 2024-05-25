@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Carrito de Compras</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart.items.all %}
+            <tr>
+                <td>{{ item.product.nombre }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.precio }}</td>
+                <td>{{ item.total_price }}</td>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="total">
+        <h3>Total: {{ cart.items.all|sum:'total_price' }}</h3>
+    </div>
+    <a href="#" class="btn btn-primary">Proceder al pago</a>
+</div>
+{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="{% static 'core/css/index.css' %}">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle"></i> Nosotros</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal"></i> Productos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los Productos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'materiales' %}" data-filter="materiales">Materiales de Construcción</a></li>
+                        <li><a class="dropdown-item" href="{% url 'electricos' %}" data-filter="electricos">Accesorios Eléctricos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'herramientas' %}" data-filter="herramientas">Herramientas</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contacto' %}"><i class="bi bi-envelope"></i> Contáctanos</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Registrarse</a>
+                </li>
+                {% endif %}
+            </ul>
+            <form class="d-flex my-2 my-lg-0">
+                <input class="form-control me-2" type="search" placeholder="Buscar producto..." aria-label="Buscar">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Carrito de Compras -->
+<section class="shopping-cart py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Carrito de Compras</h2>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                        <!-- Los productos añadidos al carrito aparecerán aquí -->
+                    </tbody>
+                </table>
+                <div class="text-end">
+                    <h4>Total a Pagar: $<span id="cart-total">0</span></h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métodos de Pago -->
+        <div class="row mt-5">
+            <div class="col-12 col-md-6">
+                <h5>Métodos de Pago</h5>
+                <form id="payment-form">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="paymentCreditCard" value="creditCard" checked>
+                        <label class="form-check-label" for="paymentCreditCard">Tarjeta de Crédito</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="paymentDebitCard" value="debitCard">
+                        <label class="form-check-label" for="paymentDebitCard">Tarjeta de Débito</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="paymentPaypal" value="paypal">
+                        <label class="form-check-label" for="paymentPaypal">Mercado pago</label>
+                    </div>
+                </form>
+            </div>
+
+<!-- Productos -->
+<section class="product-list py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Productos Disponibles</h2>
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">$100</p>
+                        <button class="btn btn-primary" onclick="addToCart('Producto 1', 100)">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto 2</h5>
+                        <p class="card-text">$150</p>
+                        <button class="btn btn-primary" onclick="addToCart('Producto 2', 150)">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto 3</h5>
+                        <p class="card-text">$200</p>
+                        <button class="btn btn-primary" onclick="addToCart('Producto 3', 200)">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <!-- Datos para Despacho -->
+            <div class="col-12 col-md-6">
+                <h5>Datos para Despacho</h5>
+                <form id="shipping-form">
+                    <div class="mb-3">
+                        <label for="inputAddress" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="inputAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputCity" class="form-label">Ciudad</label>
+                        <input type="text" class="form-control" id="inputCity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputState" class="form-label">Región</label>
+                        <input type="text" class="form-control" id="inputState" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputZip" class="form-label">Código Postal</label>
+                        <input type="text" class="form-control" id="inputZip" required>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- GPS Map -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h5>Ubicación de Despacho</h5>
+                <div id="map" style="height: 400px;"></div>
+            </div>
+        </div>
+
+        <!-- Botón de Pago -->
+        <div class="row mt-5">
+            <div class="col-12 text-end">
+                <button class="btn btn-success btn-lg" id="checkout-btn">
+                    <i class="bi bi-credit-card"></i> Proceder al Pago
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer bg-dark">
+    <div class="container">
+        <div class="row">
+            <!-- Social Media Links -->
+            <div class="col-md-4 my-auto text-center text-md-left">
+                <p class="lead">Síguenos en nuestras redes sociales:</p>
+                <div class="social-links">
+                    <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="col-md-4 my-auto text-center">
+                <p class="lead">Contáctanos:</p>
+                <p><i class="bi bi-geo-alt-fill"></i> Av. Príncipe de Gales #927, Santiago, Chile</p>
+                <p><i class="bi bi-telephone-fill"></i> +56 9 2861 395</p>
+                <p><i class="bi bi-envelope-fill"></i> info@jrcferreteria.com</p>
+            </div>
+
+            <!-- Developer Information -->
+            <div class="col-md-4 my-auto text-center text-md-right">
+                <p class="lead">Desarrollado por:</p>
+                <p><span class="brand">Doofenshmirtz Malvados y Asociados</span></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script para el Carrito de Compras -->
+<script>
+    let cart = [];
+
+    function addToCart(productName, productPrice) {
+        const existingProduct = cart.find(product => product.name === productName);
+
+        if (existingProduct) {
+            existingProduct.quantity++;
+        } else {
+            cart.push({ name: productName, price: productPrice, quantity: 1 });
+        }
+
+        updateCart();
+    }
+
+    function removeFromCart(productName) {
+        cart = cart.filter(product => product.name !== productName);
+        updateCart();
+    }
+
+    function changeQuantity(productName, quantity) {
+        const product = cart.find(product => product.name === productName);
+        if (product) {
+            product.quantity = parseInt(quantity);
+            updateCart();
+        }
+    }
+
+    function updateCart() {
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+
+        cartItems.innerHTML = '';
+        let total = 0;
+
+        cart.forEach(product => {
+            const productTotal = product.price * product.quantity;
+            total += productTotal;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td>$${product.price}</td>
+                <td>
+                    <input type="number" min="1" value="${product.quantity}" onchange="changeQuantity('${product.name}', this.value)">
+                </td>
+                <td>$${productTotal}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="removeFromCart('${product.name}')">Eliminar</button>
+                </td>
+            `;
+
+            cartItems.appendChild(row);
+        });
+
+        cartTotal.textContent = total.toFixed(2);
+    }
+
+    function initMap() {
+        const location = { lat: -33.4489, lng: -70.6693 }; // Coordenadas de Santiago, Chile
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: location,
+        });
+        const marker = new google.maps.Marker({
+            position: location,
+            map: map,
+        });
+    }
+
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+        const address = document.getElementById('inputAddress').value;
+        const city = document.getElementById('inputCity').value;
+        const state = document.getElementById('inputState').value;
+        const zip = document.getElementById('inputZip').value;
+
+        if (address && city && state && zip) {
+            alert(`Gracias por su compra!\n\nMétodo de pago: ${paymentMethod}\nDirección: ${address}, ${city}, ${state}, ${zip}`);
+            cart = [];
+            updateCart();
+        } else {
+            alert('Por favor complete todos los campos de despacho.');
+        }
+    });
+
+    window.initMap = initMap;
+</script>
+</body>
+</html>

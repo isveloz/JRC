@@ -2,6 +2,10 @@ from django import forms # type: ignore
 from django.contrib.auth.models import User # type: ignore
 from .models import Producto
 
+class AddToCartForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'class': 'form-control', 'value': 1}))
+    product_id = forms.IntegerField(widget=forms.HiddenInput())
+
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto

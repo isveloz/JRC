@@ -91,47 +91,68 @@
 </div>
 {% endif %}
 
-<!-- Contact Form Section -->
-<section class="contact-us mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <div class="card shadow p-3">
-                    <h5 class="card-title text-center"><i class="bi bi-envelope-fill"></i> Formulario de Contacto</h5>
-                    <form action="{% url 'submit_contact_form' %}/" method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-right"></i> Enviar</button>
-                    </form>
-                </div>
+<!-- Contact and Newsletter Section -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Contact Form Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow p-3">
+                <h5 class="card-title text-center"><i class="bi bi-envelope"></i> Contáctanos</h5>
+                <form action="{% url 'submit_contact_form' %}" method="post"> <!-- Asegúrate de no tener una barra al final -->
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="correo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="asunto" class="form-label">Asunto</label>
+                        <input type="text" class="form-control" id="asunto" name="asunto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mensaje" class="form-label">Mensaje</label>
+                        <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo_contacto" class="form-label">Tipo de contacto</label>
+                        <select class="form-select" id="tipo_contacto" name="tipo_contacto" required>
+                            <option value="empresa">Empresa</option>
+                            <option value="persona">Persona Natural</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-right"></i> Enviar</button>
+                </form>
             </div>
+        </div>
 
-            <!-- Newsletter and Terms Section -->
-            <div class="col-md-6 mb-4">
-                <div class="card shadow p-3">
-                    <h5 class="card-title text-center"><i class="bi bi-newspaper"></i> Suscríbete a nuestro Newsletter</h5>
-                    <p class="card-text text-center">Recibe las últimas novedades y ofertas especiales directamente en tu correo electrónico.</p>
-                    <form action="{% url 'submit_newsletter_form' %}/" method="post">
-                        {% csrf_token %}
-                        <div class="input-group mb-3">
-                            <input type="email" class="form-control" placeholder="Correo electrónico" aria-label="Correo electrónico" aria-describedby="button-addon2" required>
-                            <button class="btn btn-primary" type="submit" id="button-addon2">Suscribirse</button>
-                        </div>
-                    </form>
-                    <h5 class="card-title text-center"><i class="bi bi-file-earmark-text"></i> Términos y Condiciones</h5>
-                    <p>Al suscribirte a nuestro newsletter, aceptas los siguientes términos y condiciones:</p>
-                    <ul>
-                        <li>Los datos proporcionados serán utilizados exclusivamente para el envío de información relevante sobre nuestra empresa, productos y servicios.</li>
-                        <li>No compartiremos tus datos con terceros sin tu consentimiento previo.</li>
-                        <li>Tienes derecho a acceder, rectificar y cancelar tus datos personales en cualquier momento. Para ejercer estos derechos, por favor, contáctanos a través de los medios indicados en la sección de contacto.</li>
-                        <li>Garantizamos la seguridad y confidencialidad de tus datos personales de acuerdo con la ley de tratamientos de datos chilena.</li>
-                        <li>Al suscribirte, aceptas recibir correos electrónicos periódicos con información relevante sobre nuestros productos, promociones y eventos.</li>
-                    </ul>
-                </div>
+        <!-- Newsletter and Terms Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow p-3">
+                <h5 class="card-title text-center"><i class="bi bi-newspaper"></i> Suscríbete a nuestro Newsletter</h5>
+                <p class="card-text text-center">Recibe las últimas novedades y ofertas especiales directamente en tu correo electrónico.</p>
+                <form action="{% url 'submit_newsletter_form' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" aria-label="Correo electrónico" aria-describedby="button-addon2" required>
+                        <button class="btn btn-primary" type="submit" id="button-addon2">Suscribirse</button>
+                    </div>
+                </form>
+                <h5 class="card-title text-center"><i class="bi bi-file-earmark-text"></i> Términos y Condiciones</h5>
+                <p>Al suscribirte a nuestro newsletter, aceptas los siguientes términos y condiciones:</p>
+                <ul>
+                    <li>Los datos proporcionados serán utilizados exclusivamente para el envío de información relevante sobre nuestra empresa, productos y servicios.</li>
+                </ul>
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <!-- Footer -->
 <footer class="footer bg-dark text-white py-4">

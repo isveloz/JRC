@@ -1,15 +1,16 @@
-# mysite/urls.py
-
-from django.contrib import admin
-from django.urls import path, include
-from core import views
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Correct inclusion of admin URLs without namespace argument
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('productos/', views.productos, name='productos'),
     path('contacto/', views.contacto, name='contacto'),
+    path('cart/', views.cart_view, name='cart_view'),
+    path('add-to-cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
+    path('remove-from-cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('submit-contact/', views.submit_contact_form, name='submit_contact_form'),
+    path('submit-newsletter/', views.submit_newsletter_form, name='submit_newsletter_form'),
     path('estanley_esmeril/', views.estanley_esmeril, name='estanley_esmeril'),
     path('estanley_sierra/', views.estanley_sierra, name='estanley_sierra'),
     path('soldadora_indurarc/', views.soldadora_indurarc, name='soldadora_indurarc'),

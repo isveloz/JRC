@@ -1,16 +1,15 @@
-from django.db import models  # type: ignore
-from django.utils import timezone  # type: ignore
-
-# Modelos
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Marca(models.Model):
-    descripcion = models.CharField(max_length=255)  # Aumentar longitud máxima
+    descripcion = models.CharField(max_length=255)
 
     def __str__(self):
         return self.descripcion
 
 class TipoHerramienta(models.Model):
-    description = models.CharField(max_length=255)  # Aumentar longitud máxima
+    description = models.CharField(max_length=255)
 
     def __str__(self):
         return self.description
@@ -51,32 +50,20 @@ class Empleado(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellidoP} {self.apellidoM}"
 
-# Crear y guardar objetos relacionados
-def crear_objetos():
-    # Crear y guardar tipo de herramienta
-    tipo_herramienta = TipoHerramienta(description="Herramienta manual")
-    tipo_herramienta.save()
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart')
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    # Crear y guardar marca
-    marca = Marca(descripcion="Marca de prueba")
-    marca.save()
+    def __str__(self):
+        return f"Cart({self.user})"
 
-    # Crear y guardar producto
-    producto = Producto(
-        nombre="Producto de prueba",
-        tipo=tipo_herramienta,
-        descripcion="Este es un producto de prueba.",
-        marca=marca,
-        precio=10000,
-        categoria="Prueba"
-    )
-    producto.save()
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
 
-    # Verificar que el producto fue creado
-    productos = Producto.objects.all()
-    for prod in productos:
-        print(f"ID: {prod.id}, Nombre: {prod.nombre}, Precio: {prod.precio}, Tipo: {prod.tipo.description}, Marca: {prod.marca.descripcion}")
+    def __str__(self):
+        return f"{self.quantity} x {self.product.nombre}"
 
-# Ejecutar la función para crear los objetos
-if __name__ == "__main__":
-    crear_objetos()
+    def total_price(self):
+        return self.product.precio * self.quantity

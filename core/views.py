@@ -1,14 +1,50 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.core.paginator import Paginator
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
+# views.py
+
+from django.contrib import messages # type: ignore
+from django.contrib.auth import authenticate, login, logout # type: ignore
+from django.contrib.auth.models import User # type: ignore
+from django.core.mail import send_mail # type: ignore
+from django.core.paginator import Paginator # type: ignore
+from django.http import JsonResponse # type: ignore
+from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
 import locale
-from .models import Producto
+from .models import Producto, Cart, CartItem
 from .forms import ContactoForm, RegistroForm
+from .forms import AddToCartForm
+from django.contrib.auth.decorators import login_required # type: ignore
 
 # Configurar la localización para CLP
 locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8')
+
+@login_required
+def add_to_cart(request):
+    if request.method == 'POST':
+        form = AddToCartForm(request.POST)
+        if form.is_valid():
+            product_id = form.cleaned_data['product_id']
+            quantity = form.cleaned_data['quantity']
+            product = get_object_or_404(Producto, id=product_id)
+
+            cart, created = Cart.objects.get_or_create(user=request.user)
+            cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+            cart_item.quantity += quantity
+            cart_item.save()
+
+            messages.success(request, f'Added {quantity} {product.nombre} to your cart.')
+            return redirect('cart_view')
+    return redirect('home')
+
+@login_required
+def cart_view(request):
+    cart = Cart.objects.get(user=request.user)
+    return render(request, 'core/cart.html', {'cart': cart})
+
+@login_required
+def remove_from_cart(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id)
+    cart_item.delete()
+    messages.success(request, 'Item removed from cart.')
+    return redirect('cart_view')
 
 # Vista para la página de inicio
 def home(request):
@@ -46,10 +82,54 @@ def contacto(request):
                 ['destinatario@example.com'],  # Cambia esto por el destinatario
                 fail_silently=False,
             )
+            messages.success(request, 'Tu mensaje ha sido enviado correctamente.')
             return redirect('contacto')
     else:
         form = ContactoForm()
     return render(request, 'core/contacto.html', {'form': form})
+
+# Vista para manejar la sumisión del formulario de contacto
+def submit_contact_form(request):
+    if request.method == 'POST':
+        form = ContactoForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            telefono = form.cleaned_data['telefono']
+            asunto = form.cleaned_data['asunto']
+            mensaje = form.cleaned_data['mensaje']
+            tipo_contacto = form.cleaned_data['tipo_contacto']
+
+            # Enviar correo electrónico (configura el correo en settings.py)
+            send_mail(
+                asunto,
+                f"Nombre: {nombre}\nCorreo: {correo}\nTeléfono: {telefono}\nTipo de contacto: {tipo_contacto}\n\nMensaje:\n{mensaje}",
+                'tu_correo@example.com',  # Cambia esto por tu correo
+                ['destinatario@example.com'],  # Cambia esto por el destinatario
+                fail_silently=False,
+            )
+            messages.success(request, 'Tu mensaje ha sido enviado correctamente.')
+            return redirect('contacto')
+    messages.error(request, 'Hubo un error al enviar tu mensaje. Por favor, intenta de nuevo.')
+    return redirect('contacto')
+
+# Vista para manejar la sumisión del formulario de suscripción al boletín
+def submit_newsletter_form(request):
+    if request.method == 'POST':
+        correo = request.POST.get('correo')
+        if correo:
+            # Lógica para procesar la suscripción al boletín
+            send_mail(
+                'Suscripción al boletín',
+                f"El correo {correo} se ha suscrito al boletín.",
+                'tu_correo@example.com',  # Cambia esto por tu correo
+                ['destinatario@example.com'],  # Cambia esto por el destinatario
+                fail_silently=False,
+            )
+            messages.success(request, 'Te has suscrito correctamente al boletín.')
+            return redirect('home')
+    messages.error(request, 'Hubo un error al suscribirte al boletín. Por favor, intenta de nuevo.')
+    return redirect('home')
 
 # Vista para productos específicos
 def estanley_esmeril(request):
