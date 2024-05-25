@@ -1,9 +1,9 @@
-import locale
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+import locale
 from .models import Producto
 
 # Configurar la localización para CLP
@@ -29,7 +29,7 @@ def productos(request):
 def contacto(request):
     return render(request, 'core/contacto.html')
 
-# Vistas para productos específicos
+# Vista para productos específicos
 def estanley_esmeril(request):
     return render(request, 'core/estanley_esmeril.html')
 
