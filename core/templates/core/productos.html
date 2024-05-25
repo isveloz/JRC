@@ -71,10 +71,10 @@
                 </li>
                 {% endif %}
             </ul>
-            <form class="d-flex my-2 my-lg-0">
-                <input class="form-control me-2" type="search" placeholder="Buscar producto..." aria-label="Buscar">
+            <form class="d-flex my-2 my-lg-0" method="get" action="{% url 'buscar_productos' %}">
+                <input class="form-control me-2" type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
-            </form>
+            </form>            
         </div>
     </div>
 </nav>

@@ -1,5 +1,9 @@
-from django.urls import path
+from django.urls import path # type: ignore
 from . import views
+from django.conf.urls.static import static # type: ignore
+from django.conf import settings # type: ignore
+from django.contrib.auth import login, logout, authenticate # type: ignore
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # type: ignore
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -28,16 +32,19 @@ urlpatterns = [
     path('rodillo/', views.rodillo, name='rodillo'),
     path('pasta_muro/', views.pasta_muro, name='pasta_muro'),
     path('electricos/', views.electricos, name='electricos'),
-    path('calcular_precio/', views.calcular_precio, name='calcular_precio'),
     path('bateria_ion/', views.bateria_ion, name='bateria_ion'),
     path('compresor_ack_24/', views.compresor_ack_24, name='compresor_ack_24'),
     path('compresor_ack/', views.compresor_ack, name='compresor_ack'),
     path('hidrolavadora_k3/', views.hidrolavadora_k3, name='hidrolavadora_k3'),
     path('placa_compactadora/', views.placa_compactadora, name='placa_compactadora'),
     path('soldadora_dw/', views.soldadora_dw, name='soldadora_dw'),
-    path('herramientas/', views.herramientas, name='herramientas'),
+    path('calcular_precio/', views.calcular_precio, name='calcular_precio'),  # Añadir esta línea
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
     path('profile/', views.profile_view, name='profile'),
-]
+    path('herramientas/', views.herramientas, name='herramientas'),
+    path('buscar/', views.buscar_productos, name='buscar_productos'),
+    path('producto/<int:producto_id>/', views.producto_detalle, name='producto_detalle'),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

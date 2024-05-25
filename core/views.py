@@ -1,50 +1,47 @@
-# views.py
-
-from django.contrib import messages # type: ignore
-from django.contrib.auth import authenticate, login, logout # type: ignore
-from django.contrib.auth.models import User # type: ignore
-from django.core.mail import send_mail # type: ignore
-from django.core.paginator import Paginator # type: ignore
-from django.http import JsonResponse # type: ignore
-from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
-import locale
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse  # Añade esta línea
 from .models import Producto, Cart, CartItem
-from .forms import ContactoForm, RegistroForm
-from .forms import AddToCartForm
-from django.contrib.auth.decorators import login_required # type: ignore
+from .forms import AddToCartForm, ContactoForm, RegistroForm
+from django.core.paginator import Paginator
+from django.core.mail import send_mail
+from django.contrib.auth import authenticate, login, logout
+import locale
+from django.db.models import Q # type: ignore
+from django.shortcuts import render, get_object_or_404
+from .models import Producto
 
 # Configurar la localización para CLP
 locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8')
 
-@login_required
-def add_to_cart(request):
-    if request.method == 'POST':
-        form = AddToCartForm(request.POST)
-        if form.is_valid():
-            product_id = form.cleaned_data['product_id']
-            quantity = form.cleaned_data['quantity']
-            product = get_object_or_404(Producto, id=product_id)
+def buscar_productos(request):
+    query = request.GET.get('q')
+    if query:
+        productos = Producto.objects.filter(
+            Q(nombre__icontains=query) | 
+            Q(descripcion__icontains=query) |
+            Q(categoria__icontains=query)
+        )
+    else:
+        productos = Producto.objects.all()
 
-            cart, created = Cart.objects.get_or_create(user=request.user)
-            cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
-            cart_item.quantity += quantity
-            cart_item.save()
+    return render(request, 'core/buscar_productos.html', {'productos': productos, 'query': query})
 
-            messages.success(request, f'Added {quantity} {product.nombre} to your cart.')
-            return redirect('cart_view')
-    return redirect('home')
+def calcular_precio(request):
+    try:
+        cantidad = int(request.GET.get('cantidad', 1))
+        precio_unitario = float(request.GET.get('precio_unitario', 0))
+        total = cantidad * precio_unitario
 
-@login_required
-def cart_view(request):
-    cart = Cart.objects.get(user=request.user)
-    return render(request, 'core/cart.html', {'cart': cart})
-
-@login_required
-def remove_from_cart(request, item_id):
-    cart_item = get_object_or_404(CartItem, id=item_id)
-    cart_item.delete()
-    messages.success(request, 'Item removed from cart.')
-    return redirect('cart_view')
+        # Formatear el total en CLP
+        total_clp = locale.format_string("%.0f", total, grouping=True)
+        
+        response_data = {'total': total_clp}
+        return JsonResponse(response_data)
+    except (TypeError, ValueError):
+        # Manejar errores de tipo de datos incorrectos en la solicitud
+        return JsonResponse({'error': 'Los parámetros cantidad y precio_unitario deben ser números válidos.'})
 
 # Vista para la página de inicio
 def home(request):
@@ -131,62 +128,75 @@ def submit_newsletter_form(request):
     messages.error(request, 'Hubo un error al suscribirte al boletín. Por favor, intenta de nuevo.')
     return redirect('home')
 
-# Vista para productos específicos
+# Vistas de productos específicos
 def estanley_esmeril(request):
-    return render(request, 'core/estanley_esmeril.html')
+    product = get_object_or_404(Producto, nombre="STANLEY ESMERIL ANGULAR 4 1/2")
+    return render(request, 'core/estanley_esmeril.html', {'product': product})
 
 def estanley_sierra(request):
-    return render(request, 'core/estanley_sierra.html')
+    product = get_object_or_404(Producto, nombre="STANLEY SIERRA")
+    return render(request, 'core/estanley_sierra.html', {'product': product})
 
 def soldadora_indurarc(request):
-    return render(request, 'core/soldadora_indurarc.html')
+    product = get_object_or_404(Producto, nombre="SOLDADORA INDURARC")
+    return render(request, 'core/soldadora_indurarc.html', {'product': product})
 
 def volcanita(request):
-    return render(request, 'core/volcanita.html')
+    product = get_object_or_404(Producto, nombre="VOLCANITA")
+    return render(request, 'core/volcanita.html', {'product': product})
 
 def teja(request):
-    return render(request, 'core/teja.html')
+    product = get_object_or_404(Producto, nombre="TEJA")
+    return render(request, 'core/teja.html', {'product': product})
 
 def volcan_rollo_lana(request):
-    return render(request, 'core/volcan_rollo_lana.html')
+    product = get_object_or_404(Producto, nombre="VOLCAN ROLLO LANA")
+    return render(request, 'core/volcan_rollo_lana.html', {'product': product})
 
 def volcan_huincha(request):
-    return render(request, 'core/volcan_huincha.html')
+    product = get_object_or_404(Producto, nombre="VOLCAN HUINCHA")
+    return render(request, 'core/volcan_huincha.html', {'product': product})
 
 def cadena(request):
-    return render(request, 'core/cadena.html')
+    product = get_object_or_404(Producto, nombre="CADENA")
+    return render(request, 'core/cadena.html', {'product': product})
 
 def inchalam_malla(request):
-    return render(request, 'core/inchalam_malla.html')
+    product = get_object_or_404(Producto, nombre="INCHALAM MALLA")
+    return render(request, 'core/inchalam_malla.html', {'product': product})
 
-# Vista para mostrar productos de la categoría "materiales"
 def materiales_view(request):
     productos = Producto.objects.filter(categoria='materiales').order_by('nombre')
     return render(request, 'core/materiales.html', {'productos': productos})
 
-# Vistas para productos específicos
 def ladrillo(request):
-    return render(request, 'core/ladrillo.html')
+    product = get_object_or_404(Producto, nombre="LADRILLO")
+    return render(request, 'core/ladrillo.html', {'product': product})
 
 def mortero(request):
-    return render(request, 'core/mortero.html')
+    product = get_object_or_404(Producto, nombre="MORTERO")
+    return render(request, 'core/mortero.html', {'product': product})
 
 def fierro_hormigon(request):
-    return render(request, 'core/fierro_hormigon.html')
+    product = get_object_or_404(Producto, nombre="FIERRO HORMIGON")
+    return render(request, 'core/fierro_hormigon.html', {'product': product})
 
 def silicona(request):
-    return render(request, 'core/silicona.html')
+    product = get_object_or_404(Producto, nombre="SILICONA")
+    return render(request, 'core/silicona.html', {'product': product})
 
 def rodillo(request):
-    return render(request, 'core/rodillo.html')
+    product = get_object_or_404(Producto, nombre="RODILLO")
+    return render(request, 'core/rodillo.html', {'product': product})
 
 def pasta_muro(request):
-    return render(request, 'core/pasta_muro.html')
+    product = get_object_or_404(Producto, nombre="PASTA MURO")
+    return render(request, 'core/pasta_muro.html', {'product': product})
 
 def electricos(request):
-    return render(request, 'core/electricos.html')
+    productos = Producto.objects.filter(categoria='electricos').order_by('nombre')
+    return render(request, 'core/electricos.html', {'productos': productos})
 
-# Vista para calcular el precio total
 def calcular_precio(request):
     try:
         cantidad = int(request.GET.get('cantidad', 1))
@@ -202,34 +212,58 @@ def calcular_precio(request):
         # Manejar errores de tipo de datos incorrectos en la solicitud
         return JsonResponse({'error': 'Los parámetros cantidad y precio_unitario deben ser números válidos.'})
 
-# Vistas para productos específicos
 def bateria_ion(request):
-    return render(request, 'core/bateria_ion.html')
+    product = get_object_or_404(Producto, nombre="BATERIA ION")
+    return render(request, 'core/bateria_ion.html', {'product': product})
 
 def compresor_ack_24(request):
-    return render(request, 'core/compresor_ack_24.html')
+    product = get_object_or_404(Producto, nombre="COMPRESOR ACK 24")
+    return render(request, 'core/compresor_ack_24.html', {'product': product})
 
 def compresor_ack(request):
-    return render(request, 'core/compresor_ack.html')
+    product = get_object_or_404(Producto, nombre="COMPRESOR ACK")
+    return render(request, 'core/compresor_ack.html', {'product': product})
 
 def hidrolavadora_k3(request):
-    return render(request, 'core/hidrolavadora_k3.html')
+    product = get_object_or_404(Producto, nombre="HIDROLAVADORA K3")
+    return render(request, 'core/hidrolavadora_k3.html', {'product': product})
 
 def placa_compactadora(request):
-    return render(request, 'core/placa_compactadora.html')
+    product = get_object_or_404(Producto, nombre="PLACA COMPACTADORA")
+    return render(request, 'core/placa_compactadora.html', {'product': product})
 
 def soldadora_dw(request):
-    return render(request, 'core/soldadora_dw.html')
+    product = get_object_or_404(Producto, nombre="SOLDADORA DW")
+    return render(request, 'core/soldadora_dw.html', {'product': product})
 
-def herramientas(request):
-    return render(request, 'core/herramientas.html')
+# Vistas para el carrito de compras
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Producto, id=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    cart_item.quantity += 1  # Ajusta esta lógica según sea necesario
+    cart_item.save()
+    messages.success(request, f'Added {product.nombre} to your cart.')
+    return redirect('cart_view')
+
+@login_required
+def cart_view(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    return render(request, 'core/cart.html', {'cart': cart})
+
+@login_required
+def remove_from_cart(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    cart_item.delete()
+    messages.success(request, 'Item removed from cart.')
+    return redirect('cart_view')
 
 # Vista para la autenticación
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user_type = request.POST['user_type']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -258,3 +292,12 @@ def register_view(request):
 
 def profile_view(request):
     return render(request, 'core/profile.html')
+
+# Vista para mostrar productos de la categoría "herramientas"
+def herramientas(request):
+    productos = Producto.objects.filter(categoria='herramientas').order_by('nombre')
+    return render(request, 'core/herramientas.html', {'productos': productos})
+
+def producto_detalle(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    return render(request, 'core/producto_detalle.html', {'producto': producto})

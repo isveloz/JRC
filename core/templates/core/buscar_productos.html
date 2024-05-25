@@ -1,0 +1,44 @@
+<!-- core/templates/core/buscar_productos.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Productos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+    {% include 'core/navbar.html' %}
+    <div class="container my-5">
+        <h1 class="text-center">Resultados de búsqueda</h1>
+        <p class="text-center">Resultados para: "{{ query }}"</p>
+        <div class="row">
+            {% for producto in productos %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        {% else %}
+                            <img src="{% static 'core/img/default-product.jpg' %}" class="card-img-top" alt="{{ producto.nombre }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ producto.nombre }}</h5>
+                            <p class="card-text">{{ producto.descripcion }}</p>
+                            <p class="card-text"><strong>Precio:</strong> {{ producto.precio }}</p>
+                            <a href="{% url 'producto_detalle' producto.id %}" class="btn btn-primary">
+                                <i class="bi bi-eye"></i> Ver detalles
+                            </a>
+                            <a href="{% url 'add_to_cart' producto.id %}" class="btn btn-success">
+                                <i class="bi bi-cart-plus"></i> Añadir al carrito
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

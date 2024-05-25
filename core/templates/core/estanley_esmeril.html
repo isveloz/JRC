@@ -23,26 +23,13 @@
             const priceElement = document.getElementById('price');
             const totalElement = document.getElementById('total');
             const pricePerUnit = parseFloat(priceElement.getAttribute('data-price'));
-            const cartButton = document.getElementById('add-to-cart');
 
             function updateTotal() {
                 const quantity = parseInt(quantitySelect.value);
-                const url = `{% url 'calcular_precio' %}?cantidad=${quantity}&precio_unitario=${pricePerUnit}`;
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        totalElement.textContent = data.total;
-                    });
+                totalElement.textContent = (quantity * pricePerUnit).toFixed(2);
             }
 
             quantitySelect.addEventListener('change', updateTotal);
-
-            cartButton.addEventListener('click', function() {
-                cartButton.classList.add('cart-animation');
-                setTimeout(function() {
-                    cartButton.classList.remove('cart-animation');
-                }, 500);
-            });
 
             updateTotal();
         });
@@ -100,10 +87,10 @@
                 </li>
                 {% endif %}
             </ul>
-            <form class="d-flex my-2 my-lg-0">
-                <input class="form-control me-2" type="search" placeholder="Buscar producto..." aria-label="Buscar">
+            <form class="d-flex my-2 my-lg-0" method="get" action="{% url 'buscar_productos' %}">
+                <input class="form-control me-2" type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
-            </form>
+            </form>            
         </div>
     </div>
 </nav>
@@ -116,9 +103,9 @@
                 <div class="card">
                     <img src="{% static 'core/img/herramientas/211346-800-auto.webp' %}" class="card-img-top" alt="Producto 1" style="width: 600px; height: 600px;">
                     <div class="card-body">
-                        <h2 class="card-title">STANLEY ESMERIL ANGULAR 4 1/2" 750 W SG7115B2C DW + 10 DISCOS DE REGALO STANLEY</h2>
-                        <p class="card-text">Esmeril con óptima salida de flujo de aire que evita el sobrecalentamiento del motor. Incluye 10 discos de corte ultrafino para metal inoxidable, lo que ofrece cortes más rápidos y precisos.</p>
-                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;"><span class="badge bg-success">Oferta</span> <i class="bi bi-currency-dollar"></i> <span id="price" data-price="24990">24.990</span> C/U</p>
+                        <h2 class="card-title">{{ product.nombre }}</h2>
+                        <p class="card-text">{{ product.descripcion }}</p>
+                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;"><span class="badge bg-success">Oferta</span> <i class="bi bi-currency-dollar"></i> <span id="price" data-price="{{ product.precio }}">{{ product.precio }}</span> C/U</p>
                     </div>
                 </div>
             </div>
@@ -149,19 +136,23 @@
                             <li><i class="bi bi-geo-alt"></i> Entrega en domicilio (servicio premium) - Costo adicional de $15.490</li>
                         </ul>
 
-                                                <!-- Cantidades a elegir -->
-                                                <h5 class="card-title">Cantidades a elegir</h5>
-                                                <p class="card-text">Selecciona la cantidad deseada:</p>
-                                                <select id="quantity" class="form-select mb-3">
-                                                    <option value="1" selected>1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                </select>
-                        <!-- Botón de compra -->
-                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;">Total: <i class="bi bi-currency-dollar"></i> <span id="total">24.990</span></p>
-                        <a href="#" id="add-to-cart" class="btn btn-primary cart-animation"><i class="bi bi-cart-plus"></i> Añadir al carrito</a>
+                        <!-- Cantidades a elegir -->
+                        <h5 class="card-title">Cantidades a elegir</h5>
+                        <p class="card-text">Selecciona la cantidad deseada:</p>
+                       Selecciona la cantidad deseada:</p>
+                        <form method="post" action="{% url 'add_to_cart' product.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <select id="quantity" name="quantity" class="form-select mb-3">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <p class="card-text" style="font-size: 1.2em; font-weight: bold;">Total: <i class="bi bi-currency-dollar"></i> <span id="total">{{ product.precio }}</span></p>
+                            <button type="submit" id="add-to-cart" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Añadir al carrito</button>
+                        </form>
                     </div>
                 </div>
             </div>

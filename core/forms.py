@@ -1,5 +1,5 @@
-from django import forms # type: ignore
-from django.contrib.auth.models import User # type: ignore
+from django import forms
+from django.contrib.auth.models import User
 from .models import Producto
 
 class AddToCartForm(forms.Form):
