@@ -1,7 +1,9 @@
-from django.urls import path
-from . import views
+from django.contrib import admin # type: ignore
+from django.urls import path # type: ignore
+from core import views
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('productos/', views.productos, name='productos'),
@@ -30,6 +32,9 @@ urlpatterns = [
     path('hidrolavadora_k3/', views.hidrolavadora_k3, name='hidrolavadora_k3'),
     path('placa_compactadora/', views.placa_compactadora, name='placa_compactadora'),
     path('soldadora_dw/', views.soldadora_dw, name='soldadora_dw'),
-    path('herramientas', views.soldadora_dw, name='herramientas'), 
-
+    path('herramientas/', views.herramientas, name='herramientas'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('register/', views.register_view, name='register'),
+    path('profile/', views.profile_view, name='profile'),
 ]

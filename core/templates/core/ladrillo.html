@@ -53,7 +53,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'home' %}">
             <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,14 +73,32 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los Productos</a></li>
-                        <li><a class="dropdown-item" href="{% url 'herramientas' %}" data-filter="herramientas">Herramientas</a></li>
                         <li><a class="dropdown-item" href="{% url 'materiales' %}" data-filter="materiales">Materiales de Construcción</a></li>
                         <li><a class="dropdown-item" href="{% url 'electricos' %}" data-filter="electricos">Accesorios Eléctricos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'herramientas' %}" data-filter="herramientas">Herramientas</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contacto' %}"><i class="bi bi-envelope"></i> Contáctanos</a>
                 </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Registrarse</a>
+                </li>
+                {% endif %}
             </ul>
             <form class="d-flex my-2 my-lg-0">
                 <input class="form-control me-2" type="search" placeholder="Buscar producto..." aria-label="Buscar">

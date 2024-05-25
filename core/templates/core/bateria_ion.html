@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batería Ion de Litio 2 AH 20 V</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'core/img/logos/icon.webp' %}" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom Script for Calculations and Cart Animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cantidadElement = document.getElementById('cantidad');
+            const precioUnitarioElement = document.getElementById('precio-unitario');
+            const totalPrecioElement = document.getElementById('total-precio');
+            const precioUnitario = parseFloat(precioUnitarioElement.getAttribute('data-precio'));
+            const cartButton = document.getElementById('add-to-cart');
+
+            function calcularPrecioTotal() {
+                const cantidad = parseInt(cantidadElement.value);
+                const total = cantidad * precioUnitario;
+                totalPrecioElement.textContent = new Intl.NumberFormat('es-CL').format(total);
+            }
+
+            cantidadElement.addEventListener('change', calcularPrecioTotal);
+
+            cartButton.addEventListener('click', function() {
+                cartButton.classList.add('cart-animation');
+                setTimeout(function() {
+                    cartButton.classList.remove('cart-animation');
+                }, 500);
+            });
+
+            calcularPrecioTotal();
+        });
+    </script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle"></i> Nosotros</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal"></i> Productos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'productos' %}" data-filter="all">Todos los Productos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'materiales' %}" data-filter="materiales">Materiales de Construcción</a></li>
+                        <li><a class="dropdown-item" href="{% url 'electricos' %}" data-filter="electricos">Accesorios Eléctricos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'herramientas' %}" data-filter="herramientas">Herramientas</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contacto' %}"><i class="bi bi-envelope"></i> Contáctanos</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Registrarse</a>
+                </li>
+                {% endif %}
+            </ul>
+            <form class="d-flex my-2 my-lg-0">
+                <input class="form-control me-2" type="search" placeholder="Buscar producto..." aria-label="Buscar">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Tarjeta del producto -->
+            <div class="col-md-6 mb-5">
+                <div class="card">
+                    <img src="{% static 'core/img/electro/205133-800-auto.webp' %}" class="card-img-top" alt="Batería Ion de Litio 2 AH 20 V" style="width: 100%; height: auto;">
+                    <div class="card-body">
+                        <h2 class="card-title">Batería Ion de Litio 2 AH 20 V</h2>
+                        <p class="card-text">Las nuevas baterías cuentan con un sistema de celdas de grado profesional de alta capacidad, máxima tecnología con mayor duración. Esta tecnología de batería mejorada asegura una mayor duración, auto descarga mínima y sin efecto memoria. Las nuevas baterías de IÓN DE LITIO V20 ofrecen todo el rendimiento que necesita para un largo día de trabajo, porque necesitas confiar en el buen funcionamiento de tus herramientas.</p>
+                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;"><span class="badge bg-success">Oferta</span> <i class="bi bi-currency-dollar"></i> <span id="precio-unitario" data-precio="26990">26.990</span> C/U</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Segunda tarjeta -->
+            <div class="col-md-6 mx-auto mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Términos y condiciones -->
+                        <h5 class="card-title">Términos y condiciones</h5>
+                        <p class="card-text">Al acceder y utilizar nuestro sitio web, aceptas cumplir con los siguientes términos y condiciones. Nuestra política de devoluciones permite devoluciones dentro de los 30 días posteriores a la entrega, con productos en su estado original. Garantizamos la calidad de nuestros productos y ofrecemos garantía de satisfacción del cliente. Respetamos tu privacidad y protegemos tus datos personales.</p>
+
+                        <!-- Métodos de pago -->
+                        <h5 class="card-title">Métodos de pago</h5>
+                        <p class="card-text">Ofrecemos diversas opciones de pago para tu comodidad:</p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-cash"></i> Pago en efectivo al recibir el pedido</li>
+                            <li><i class="bi bi-credit-card"></i> Pago con tarjeta de crédito/débito</li>
+                            <li><i class="bi bi-wallet2"></i> Pago móvil</li>
+                        </ul>
+
+                        <!-- Cantidades a elegir -->
+                        <h5 class="card-title">Cantidades a elegir</h5>
+                        <p class="card-text">Selecciona la cantidad deseada:</p>
+                        <select class="form-select mb-3" id="cantidad">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                        <!-- Métodos de entrega -->
+                        <h5 class="card-title">Métodos de entrega</h5>
+                        <p class="card-text">Tenemos varias opciones para que recibas tu pedido:</p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-truck"></i> Envío estándar (entrega en 2-3 días hábiles) - Gratis para pedidos superiores a $250.000</li>
+                            <li><i class="bi bi-shop"></i> Recoger en tienda (disponible en nuestras sucursales)</li>
+                            <li><i class="bi bi-airplane"></i> Envío exprés (entrega en 24 horas) - Costo adicional de $10.000</li>
+                            <li><i class="bi bi-geo-alt"></i> Entrega en domicilio (servicio premium) - Costo adicional de $15.490</li>
+                        </ul>
+
+                        <!-- Botón de compra -->
+                        <p class="card-text" style="font-size: 1.2em; font-weight: bold;">Total: <i class="bi bi-currency-dollar"></i> <span id="total-precio">26.990</span></p>
+                        <a href="#" id="add-to-cart" class="btn btn-primary cart-animation"><i class="bi bi-cart-plus"></i> Añadir al carrito</a>
+
+                        <!-- Logos -->
+                        <div class="mt-3">
+                            <img src="{% static 'core/img/logos/mercadopago-logo-FC9BA7420E-seeklogo.com.png' %}" alt="Logo MercadoPago" class="me-2" style="height: 50px;">
+                            <img src="{% static 'core/img/logos/1.Webpay_FB_300px.png' %}" alt="Logo Webpay" class="me-2" style="height: 50px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sección de valoraciones -->
+<div class="container mt-5">
+    <h2>Valoraciones</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="review">
+                <h4><i class="bi bi-person-circle"></i> David</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> Excelente producto, muy útil y de buena calidad. Lo recomendaría a cualquier persona interesada en este tipo de productos.</p>
+            </div>
+            <div class="review">
+                <h4><i class="bi bi-person-circle"></i> Franco</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> El producto cumple con mis expectativas, aunque la entrega fue un poco lenta. En general, estoy satisfecho con mi compra.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="review">
+                <h4><i class="bi bi-person-circle"></i> Antonia</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> Buen producto, pero tuve algunos problemas con la instalación. El servicio al cliente fue útil para resolver mis dudas.</p>
+            </div>
+            <div class="review">
+                <h4><i class="bi bi-person-circle"></i> Mateo</h4>
+                <p><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> ¡Increíble! Este producto superó mis expectativas. Lo uso a diario y no he tenido ningún problema hasta ahora.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <!-- Social Media Links -->
+            <div class="col-md-4 my-auto text-center text-md-left">
+                <p class="lead">Síguenos en nuestras redes sociales:</p>
+                <div class="social-links">
+                    <a href="#" class="me-3 text-white"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-3 text-white"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="col-md-4 my-auto text-center">
+                <p class="lead">Contáctanos:</p>
+                <p><i class="bi bi-geo-alt-fill"></i> Av. Príncipe de Gales #927, Santiago, Chile</p>
+                <p><i class="bi bi-telephone-fill"></i> +56 9 2861 395</p>
+                <p><i class="bi bi-envelope-fill"></i> info@jrcferreteria.com</p>
+            </div>
+
+            <!-- Developer Information -->
+            <div class="col-md-4 my-auto text-center text-md-right">
+                <p class="lead">Desarrollado por:</p>
+                <p><span class="brand">Doofenshmirtz Malvados y Asociados</span></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

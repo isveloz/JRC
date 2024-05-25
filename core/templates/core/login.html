@@ -1,11 +1,10 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About us</title>
+    <title>Iniciar Sesión</title>
     <!-- Favicon -->
     <link rel="icon" href="{% static 'core/img/logos/icon.webp' %}" type="image/x-icon">
     <!-- Bootstrap CSS -->
@@ -74,96 +73,43 @@
     </div>
 </nav>
 
-<!-- Carrusel -->
-<div id="carouselE1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-    <div class="carousel-inner">
-        <!-- Diapositiva 1 -->
-        <div class="carousel-item active">
-            <img src="{% static 'core/img/carrusel/silueta-construccion.jpg' %}" class="d-block w-100 img-fluid" alt="">
-            <div class="carousel-caption">
-                <h5 class="display-4">Nuestra historia</h5>
-                <p class="lead">
-                    Desde nuestros humildes comienzos hasta convertirnos en lo que somos hoy, nuestra historia es un
-                    testimonio de perseverancia, pasión y dedicación. Todo comenzó hace décadas, en un pequeño
-                    taller de carpintería donde nuestro fundador, Juan Rodríguez, trabajaba incansablemente para
-                    crear muebles de calidad con sus propias manos.
-
-                    Con el tiempo, la reputación de Juan por su habilidad y artesanía excepcional creció, y su
-                    pequeño taller se convirtió en un punto de referencia en la comunidad. Inspirado por su éxito y
-                    la demanda creciente de sus productos, Juan decidió expandir su negocio y fundó JRC Muebles.
-
-                    A lo largo de los años, hemos evolucionado y diversificado nuestra oferta de productos para
-                    satisfacer las necesidades cambiantes de nuestros clientes. Desde muebles clásicos y elegantes
-                    hasta modernos diseños innovadores, hemos mantenido nuestro compromiso con la calidad y la
-                    artesanía excepcional en cada pieza que producimos.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Tarjetas con sombras para fotos y nombres/cargos -->
+<!-- Login Form -->
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card shadow h-100 d-flex">
-                <img src="{% static 'core/img/genteqla/weon1.jpg' %}" class="card-img-top img-fluid" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Juan Rodríguez</h5>
-                    <p class="card-text">Fundador y CEO</p>
-                </div>
-            </div>
+    <h2>Iniciar Sesión</h2>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Campo de nombre de usuario -->
+        <div class="mb-3">
+            <label for="username" class="form-label">Nombre de usuario</label>
+            <input type="text" class="form-control" id="username" name="username" required>
         </div>
-        <div class="col-md-4">
-            <div class="card shadow h-100 d-flex">
-                <img src="{% static 'core/img/genteqla/weona2.jpg' %}" class="card-img-top img-fluid" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">María Pérez</h5>
-                    <p class="card-text">Directora de Operaciones</p>
-                </div>
-            </div>
+        <!-- Campo de contraseña -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <div class="col-md-4">
-            <div class="card shadow h-100 d-flex">
-                <img src="{% static 'core/img/genteqla/weona3.jpg' %}" class="card-img-top img-fluid" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Marcela González</h5>
-                    <p class="card-text">Directora de Marketing</p>
-                </div>
-            </div>
+        <!-- Selector de tipo de usuario -->
+        <div class="mb-3">
+            <label for="user_type" class="form-label">Tipo de usuario</label>
+            <select class="form-select" id="user_type" name="user_type" required>
+                <option value="cliente">Cliente</option>
+                <option value="bodeguero">Bodeguero</option>
+                <option value="contador">Contador</option>
+            </select>
         </div>
-    </div>
+        <!-- Mensaje de error (si lo hay) -->
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+        <!-- Botón de enviar -->
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    </form>
 </div>
 
-<!-- Nueva sección para nuestros socios -->
-<div class="container mt-5">
-    <div class="row justify-content-center mt-5">
-        <h2 class="text-center mb-4">Nuestros Socios</h2>
-        <div class="col-md-3 mb-4">
-            <div class="card shadow h-100">
-                <img src="{% static 'core/img/logos/cchc.jpg' %}" class="card-img-top img-fluid" alt="...">
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card shadow h-100">
-                <img src="{% static 'core/img/logos/compromiso-pro.svg' %}" class="card-img-top img-fluid" alt="...">
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card shadow h-100">
-                <img src="{% static 'core/img/logos/logo-conferencia-internacional-ciudad.svg' %}" class="card-img-top img-fluid" alt="...">
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card shadow h-100">
-                <img src="{% static 'core/img/logos/semana-logo.png' %}" class="card-img-top img-fluid" alt="...">
-            </div>
-        </div>
-    </div>
-</div>
-<br>
 <!-- Footer -->
-<footer class="footer bg-dark text-white py-4">
+<footer class="footer bg-dark text-white py-4 mt-5">
     <div class="container">
         <div class="row">
             <!-- Social Media Links -->
