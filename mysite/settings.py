@@ -53,7 +53,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mysite.urls'
 
-TEMPLATES = [
+TEMPLATES = [   
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
@@ -140,10 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ID del sitio (esto es necesario si utilizas django.contrib.sites)
 SITE_ID = 1
 
-# API TRANSBANK
-TRANSBANK_COMMERCE_CODE = '28299257'
-TRANSBANK_API_KEY = 'cxxXQgGD9vrVe4M41FIt'
-TRANSBANK_ENVIRONMENT = 'PRODUCCION'  # Cambia a 'PRODUCCION' cuando estés listo
-
-LOGIN_REDIRECT_URL = 'home'  # Cambia 'home' por el nombre de la URL a la que quieras redirigir después de iniciar sesión
-LOGOUT_REDIRECT_URL = 'login'  # Cambia 'login' por el nombre de la URL a la que quieras redirigir después de cerrar sesión
+# Transbank configuration for testing
+TRANSBANK_COMMERCE_CODE = '597055555532'
+TRANSBANK_API_KEY = '597055555532'
+TRANSBANK_ENVIRONMENT = 'TEST'  # Cambiar a 'PRODUCCION' para el entorno de producción

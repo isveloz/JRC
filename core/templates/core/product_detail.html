@@ -1,18 +1,18 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}{{ producto.nombre }}{% endblock %}
+{% block title %}{{ producto.Nombre }}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row">
         <!-- Imagen del producto -->
         <div class="col-md-6 mb-5">
-            <img src="{{ producto.imagen.url }}" class="img-fluid rounded" alt="{{ producto.nombre }}">
+            <img src="{{ producto.imagen.url }}" class="img-fluid rounded" alt="{{ producto.Nombre }}">
         </div>
         <!-- Detalles del producto -->
         <div class="col-md-6 mb-5">
-            <h2>{{ producto.nombre }}</h2>
+            <h2>{{ producto.Nombre }}</h2>
             <p>{{ producto.descripcion }}</p>
             <h3 class="text-success"><strong>${{ producto.precio }}</strong></h3>
             <!-- Calculadora de cantidades -->

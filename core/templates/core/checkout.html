@@ -1,52 +1,26 @@
-<!-- core/templates/core/checkout.html -->
 {% extends 'core/base.html' %}
+
+{% block title %}Checkout{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Resumen de la compra</h2>
-    <ul class="list-group mb-3">
-        {% for item in carrito_items %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="my-0">{{ item.producto.Nombre }}</h5>
-                <small class="text-muted">Cantidad: {{ item.cantidad }}</small>
+    <h1>Revisar y Confirmar Pedido</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Tu Carrito</h2>
+            <ul class="list-group">
+                {% for item in carrito_items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ item.producto.Nombre }} ({{ item.cantidad }})
+                    <span class="badge bg-primary rounded-pill">${{ item.producto.precio|floatformat:2 }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="mt-3">
+                <h3>Total: ${{ total|floatformat:2 }}</h3>
+                <a href="{% url 'pago_iniciar' %}" class="btn btn-success">Proceder al Pago</a>
             </div>
-            <span class="text-muted">${{ item.producto.precio|floatformat:2 }}</span>
-        </li>
-        {% endfor %}
-    </ul>
-    <h3>Total: ${{ total|floatformat:2 }}</h3>
-    <form action="{% url 'procesar_pago' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
-        <div class="mb-3">
-            <label for="direccion" class="form-label">Dirección</label>
-            <input type="text" class="form-control" id="direccion" name="direccion" required>
-        </div>
-        <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" class="form-control" id="telefono" name="telefono" required>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label for="tarjeta" class="form-label">Número de Tarjeta</label>
-            <input type="text" class="form-control" id="tarjeta" name="tarjeta" required>
-        </div>
-        <div class="mb-3">
-            <label for="expiracion" class="form-label">Fecha de Expiración</label>
-            <input type="month" class="form-control" id="expiracion" name="expiracion" required>
-        </div>
-        <div class="mb-3">
-            <label for="cvv" class="form-label">CVV</label>
-            <input type="text" class="form-control" id="cvv" name="cvv" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Procesar Pago</button>
-    </form>
+    </div>
 </div>
 {% endblock %}

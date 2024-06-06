@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagar con Transbank</title>
+</head>
+<body>
+    <h1>Total a Pagar: ${{ total }}</h1>
+    <form method="post" action="{{ response.url }}">
+        <input type="hidden" name="token_ws" value="{{ response.token }}">
+        <button type="submit">Pagar</button>
+    </form>
+</body>
+</html>

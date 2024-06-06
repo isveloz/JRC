@@ -4,10 +4,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 import requests
 from .forms import ClienteForm, UserRegisterForm, TareaForm
-from .models import Cliente, Producto, CarritoItem, Tarea
+from .models import Cliente, Pedido, PedidoItem, Producto, CarritoItem, Tarea
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from transbank.webpay.webpay_plus.transaction import Transaction
+from transbank.webpay.webpay_plus.transaction import Transaction as WebpayTransaction
+from .models import Transaction
 
 # Páginas principales
 def home(request):
@@ -243,73 +245,81 @@ def ingreso_boletas(request):
             form.save()
             return redirect('contador')
     else:
-        form = BoletaForm()
+        form = BoletaForm() # type: ignore
     return render(request, 'app/CRUD/contador.html', {'form': form})
 
-# API Transbank
-@login_required
 def pago_iniciar(request):
     # Obtén el carrito del usuario con estado 'pendiente'
-    cart, created = Cart.objects.get_or_create(user=request.user, estado='pendiente')
-    carrito = CartItem.objects.filter(cart=cart)
-    
+    carrito_items = CarritoItem.objects.all()
+
     # Calcula el total del carrito
-    total = sum(item.producto.precio * item.cantidad for item in carrito)
+    total = sum(item.producto.precio * item.cantidad for item in carrito_items)
     
+    # Redondea el total a un entero
+    total = int(total)
+
     # Configura la transacción de Webpay
-    tx = Transaction()
+    tx = WebpayTransaction()
     response = tx.create(
-        buy_order=str(request.user.id) + str(carrito.first().id),
+        buy_order=str(request.user.id) + str(carrito_items.first().id),
         session_id=request.session.session_key,
         amount=total,
         return_url="http://127.0.0.1:8000/pago_exito/"
     )
-    
+
     if request.method == 'POST':
         # Crear el pedido después de confirmar el pago
-        pedido = pedido.objects.create(user=request.user, total=total)
-        for item in carrito:
+        pedido = Pedido.objects.create(user=request.user, total=total)
+        for item in carrito_items:
             PedidoItem.objects.create(
                 pedido=pedido,
                 producto=item.producto,
                 cantidad=item.cantidad,
                 precio=item.producto.precio
             )
-        cart.estado = 'completado'
-        cart.save()
+        for item in carrito_items:
+            item.delete()
+
         return redirect('pago_exito')
 
-    return render(request, 'app/pago_iniciar.html', {'response': response, 'total': total})
+    return render(request, 'core/pago_iniciar.html', {'response': response, 'total': total})
 
 def pago_exito(request):
     token = request.GET.get('token_ws')
-    tx = Transaction()
+    tx = WebpayTransaction()
     response = tx.commit(token)
     
     if response['response_code'] == 0:  # Transacción exitosa
-        # Obtén el carrito pendiente del usuario
-        carrito = Cart.objects.filter(user=request.user, estado='pendiente').first()
-        if carrito:
-            # Actualiza el estado del carrito
-            carrito.estado = 'pagado'
-            carrito.save()
+        # Guardar la transacción en la base de datos
+        Transaction.objects.create(
+            user=request.user,
+            buy_order=response['buy_order'],
+            session_id=response['session_id'],
+            amount=response['amount'],
+            status=response['status'],
+            authorization_code=response['authorization_code']
+        )
         
-        # Obtén todos los ítems del carrito y realiza cualquier acción adicional necesaria
-        cart_items = CartItem.objects.filter(cart=carrito)
-        # Aquí puedes añadir lógica adicional, como enviar un email de confirmación
-        
-        return render(request, 'app/pago_exito.html', {'response': response})
+        return render(request, 'core/pago_exitoso.html', {'response': response})
     else:
-        return render(request, 'app/pago_error.html', {'response': response})
-#APIS
-def indicadores(request):
-    try:
-        response = requests.get('https://mindicador.cl/api')
-        response.raise_for_status()
-        data = response.json()
-    except requests.exceptions.RequestException as e:
-        data = {}
-        error_message = f'Error al obtener los indicadores: {e}'
-        return render(request, 'app/indicadores.html', {'data': data, 'error_message': error_message})
+        return render(request, 'core/pago_error.html', {'response': response})
+
+def pago_exito(request):
+    token = request.GET.get('token_ws')
+    tx = WebpayTransaction()
+    response = tx.commit(token)
     
-    return render(request, 'app/indicadores.html', {'data': data})
+    if response['response_code'] == 0:  # Transacción exitosa
+        # Guardar la transacción en la base de datos
+        Transaction.objects.create(
+            user=request.user,
+            buy_order=response['buy_order'],
+            session_id=response['session_id'],
+            amount=response['amount'],
+            status=response['status'],
+            authorization_code=response['authorization_code']
+        )
+        
+        return render(request, 'core/pago_exitoso.html', {'response': response})
+    else:
+        return render(request, 'core/pago_error.html', {'response': response})

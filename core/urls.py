@@ -18,8 +18,6 @@ urlpatterns = [
     path('ver_carrito/', views.ver_carrito, name='ver_carrito'),
     path('producto/<int:producto_id>/', views.product_detail, name='product_detail'),
     path('checkout/', views.checkout, name='checkout'),
-    path('procesar_pago/', views.procesar_pago, name='procesar_pago'),
-    path('transaccion_exitosa/', views.pago_exitoso, name='transaccion_exitosa'),
     path('tareas/', views.listar_tareas, name='listar_tareas'),
     path('tareas/crear/', views.crear_tarea, name='crear_tarea'),
     path('tareas/<int:tarea_id>/editar/', views.editar_tarea, name='editar_tarea'),
@@ -27,6 +25,8 @@ urlpatterns = [
     path('clientes/', views.listar_clientes, name='listar_clientes'),
     path('clientes/crear/', views.crear_cliente, name='crear_cliente'),
     path('clientes/<int:cliente_id>/editar/', views.editar_cliente, name='editar_cliente'),
+    path('pago_iniciar/', views.pago_iniciar, name='pago_iniciar'),
+    path('pago_exito/', views.pago_exito, name='pago_exito'),
 ]
 
 if settings.DEBUG:
