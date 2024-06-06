@@ -2,10 +2,12 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+import requests
 from .forms import ClienteForm, UserRegisterForm, TareaForm
 from .models import Cliente, Producto, CarritoItem, Tarea
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
+from transbank.webpay.webpay_plus.transaction import Transaction
 
 # Páginas principales
 def home(request):
@@ -84,8 +86,8 @@ def register(request):
 @login_required
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
-    carrito_item, creado = CarritoItem.objects.get_or_create(producto=producto)
-    if not creado:
+    carrito_item, created = CarritoItem.objects.get_or_create(producto=producto)
+    if not created:
         carrito_item.cantidad += 1
     carrito_item.save()
     return redirect('ver_carrito')
@@ -105,10 +107,7 @@ def ver_carrito(request):
 def checkout(request):
     carrito_items = CarritoItem.objects.all()
     total = sum(item.producto.precio * item.cantidad for item in carrito_items)
-    return render(request, 'core/checkout.html', {
-        'carrito_items': carrito_items,
-        'total': total,
-    })
+    return render(request, 'core/checkout.html', {'carrito_items': carrito_items, 'total': total})
 
 @login_required
 def procesar_pago(request):
@@ -123,7 +122,7 @@ def procesar_pago(request):
         
         messages.success(request, 'Pago procesado correctamente')
         
-        return redirect('transaccion_exitosa')
+        return redirect('pago_exitoso')
     
     return redirect('checkout')
 
@@ -214,3 +213,103 @@ def editar_cliente(request, cliente_id):
 def listar_clientes(request):
     clientes = Cliente.objects.all()
     return render(request, 'core/listar_clientes.html', {'clientes': clientes})
+
+    add_form = ProductoForm()
+
+    return render(request, 'app/CRUD/bodeguero.html', {
+        'pedidos': pedidos,
+        'productos': productos,
+        'form': form,
+        'edit_producto_id': edit_producto_id,
+        'add_form': add_form,
+        'marcas': marcas,
+    })
+
+def contador(request):
+    if request.method == 'POST':
+        form = BoletaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('contador')
+    else:
+        form = BoletaForm()
+    boletas = boletas.objects.all()
+    return render(request, 'app/CRUD/contador.html', {'form': form, 'boletas': boletas})
+
+def ingreso_boletas(request):
+    if request.method == 'POST':
+        form = BoletaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('contador')
+    else:
+        form = BoletaForm()
+    return render(request, 'app/CRUD/contador.html', {'form': form})
+
+# API Transbank
+@login_required
+def pago_iniciar(request):
+    # Obtén el carrito del usuario con estado 'pendiente'
+    cart, created = Cart.objects.get_or_create(user=request.user, estado='pendiente')
+    carrito = CartItem.objects.filter(cart=cart)
+    
+    # Calcula el total del carrito
+    total = sum(item.producto.precio * item.cantidad for item in carrito)
+    
+    # Configura la transacción de Webpay
+    tx = Transaction()
+    response = tx.create(
+        buy_order=str(request.user.id) + str(carrito.first().id),
+        session_id=request.session.session_key,
+        amount=total,
+        return_url="http://127.0.0.1:8000/pago_exito/"
+    )
+    
+    if request.method == 'POST':
+        # Crear el pedido después de confirmar el pago
+        pedido = pedido.objects.create(user=request.user, total=total)
+        for item in carrito:
+            PedidoItem.objects.create(
+                pedido=pedido,
+                producto=item.producto,
+                cantidad=item.cantidad,
+                precio=item.producto.precio
+            )
+        cart.estado = 'completado'
+        cart.save()
+        return redirect('pago_exito')
+
+    return render(request, 'app/pago_iniciar.html', {'response': response, 'total': total})
+
+def pago_exito(request):
+    token = request.GET.get('token_ws')
+    tx = Transaction()
+    response = tx.commit(token)
+    
+    if response['response_code'] == 0:  # Transacción exitosa
+        # Obtén el carrito pendiente del usuario
+        carrito = Cart.objects.filter(user=request.user, estado='pendiente').first()
+        if carrito:
+            # Actualiza el estado del carrito
+            carrito.estado = 'pagado'
+            carrito.save()
+        
+        # Obtén todos los ítems del carrito y realiza cualquier acción adicional necesaria
+        cart_items = CartItem.objects.filter(cart=carrito)
+        # Aquí puedes añadir lógica adicional, como enviar un email de confirmación
+        
+        return render(request, 'app/pago_exito.html', {'response': response})
+    else:
+        return render(request, 'app/pago_error.html', {'response': response})
+#APIS
+def indicadores(request):
+    try:
+        response = requests.get('https://mindicador.cl/api')
+        response.raise_for_status()
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        data = {}
+        error_message = f'Error al obtener los indicadores: {e}'
+        return render(request, 'app/indicadores.html', {'data': data, 'error_message': error_message})
+    
+    return render(request, 'app/indicadores.html', {'data': data})

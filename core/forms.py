@@ -1,7 +1,8 @@
+# forms.py
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Cliente, Tarea
+from .models import Cliente, Producto, Tarea
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -21,3 +22,13 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ['direccion', 'telefono', 'fecha_nacimiento']
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = '__all__'
+        
+#class BoletaForm(forms.ModelForm):
+#    class Meta:
+#        model = Boleta
+#        fields = ['id_boleta', 'cliente', 'monto', 'fecha']

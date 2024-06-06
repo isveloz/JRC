@@ -11,7 +11,7 @@ body {
 
 /* Carousel */
 .carousel-item img {
-    max-height: 500px;
+    max-height: 800px;
     object-fit: cover;
 }
 
@@ -23,12 +23,12 @@ body {
 
 /* Card Styles */
 .card {
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
