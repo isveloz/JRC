@@ -1,52 +1,52 @@
-from django.db import models # type: ignore
+from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
 class Marca(models.Model):
-    descripcion = models.CharField(max_length=10)
+    nombre = models.CharField(max_length=255, default='Marca Predeterminada')
 
     def __str__(self):
-        return self.descripcion
+        return self.nombre
 
-class TipoHerramienta(models.Model):
-    description = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.description
-    
-
-class Genero(models.Model):
-    tipo= models.CharField(max_length=10)
-    
-    def __str__(self):
-        return self.tipo
-
-class TipoEmpleado(models.Model):
-    tipo=models.CharField(max_length=15)
+class TipoProducto(models.Model):
+    nombre = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.tipo
+        return self.nombre
 
 class Producto(models.Model):
-    Nombre = models.CharField(max_length=50)
-    tipo = models.ForeignKey(TipoHerramienta, on_delete=models.CASCADE)
-    descripcion = models.TextField()  
+    Nombre = models.CharField(max_length=255)
+    descripcion = models.TextField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    imagen = models.ImageField(upload_to='producto', null=True)
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
-    imagen = models.ImageField(upload_to="noticias", null=True)
-    precio = models.IntegerField
+    tipo = models.ForeignKey(TipoProducto, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.Nombre
 
+class CarritoItem(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+    añadido_el = models.DateTimeField(auto_now_add=True)
 
-class Empleado(models.Model):
-    rut= models.CharField (max_length=50)
-    Nombre = models.CharField(max_length=50)
-    apellidoP=models.CharField(max_length=50)
-    apellidoM=models.CharField(max_length=50)
-    puesto = models.ForeignKey(TipoEmpleado, on_delete=models.CASCADE)
-    genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.cantidad} x {self.producto.Nombre}'
+
+class Tarea(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True, null=True)
+    completada = models.BooleanField(default=False)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.titulo
     
+class Cliente(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    direccion = models.CharField(max_length=255)
+    telefono = models.CharField(max_length=15)
+    fecha_nacimiento = models.DateField(null=True, blank=True)
+
     def __str__(self):
-        return self.Nombre
-
-
+        return self.user.username

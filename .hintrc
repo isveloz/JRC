@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/forms": [
+      "default",
+      {
+        "select-name": "off"
+      }
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ],
+    "no-inline-styles": "off",
+    "axe/language": [
+      "default",
+      {
+        "html-has-lang": "off"
+      }
+    ]
+  }
+}

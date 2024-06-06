@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -26,8 +25,7 @@ SECRET_KEY = 'django-insecure-l7glf)*bc!4--pce712hqv5svk$5f$p45o^=omsyahsxbg7fgb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -40,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core'
 ]
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,7 +56,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'core' / 'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,17 +71,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'JRC',
+        'USER': 'isaias',
+        'PASSWORD': 'isaias123',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -101,27 +103,47 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-cl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Configuración de las rutas estáticas
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'core/static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ID del sitio (esto es necesario si utilizas django.contrib.sites)
+SITE_ID = 1
+
+# API TRANSBANK
+TRANSBANK_COMMERCE_CODE = '28299257'
+TRANSBANK_API_KEY = 'cxxXQgGD9vrVe4M41FIt'
+TRANSBANK_ENVIRONMENT = 'PRODUCCION'  # Cambia a 'PRODUCCION' cuando estés listo
+
+LOGIN_REDIRECT_URL = 'home'  # Cambia 'home' por el nombre de la URL a la que quieras redirigir después de iniciar sesión
+LOGOUT_REDIRECT_URL = 'login'  # Cambia 'login' por el nombre de la URL a la que quieras redirigir después de cerrar sesión

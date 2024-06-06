@@ -1,12 +1,168 @@
-<!-- core/templates/core/about.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>About Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About us</title>
+    <!-- Favicon -->
+    {% load static %}
+    <link rel="icon" href="{% static 'core/img/logos/icon.webp' %}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/animations.css' %}">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>About Us</h1>
-    <p>Esta es la página de About Us.</p>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'core/img/LOGO5-2025564367.png' %}" alt="Logo" style="height: 40px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle"></i> About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productos' %}"><i class="bi bi-journal"></i> Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'colaborador_login' %}"><i class="bi bi-person-badge"></i> Colaborador</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cliente_login' %}"><i class="bi bi-person"></i> Cliente</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Carrusel -->
+    <div id="carouselE1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'core/img/carrusel/silueta-construccion.jpg' %}" class="d-block w-100 img-fluid" alt="">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="display-4">Nuestra historia</h5>
+                    <p class="lead">
+                        Desde nuestros humildes comienzos hasta convertirnos en lo que somos hoy, nuestra historia es un
+                        testimonio de perseverancia, pasión y dedicación. Todo comenzó hace décadas, en un pequeño
+                        taller de carpintería donde nuestro fundador, Juan Rodríguez, trabajaba incansablemente para
+                        crear muebles de calidad con sus propias manos. Con el tiempo, la reputación de Juan por su
+                        habilidad y artesanía excepcional creció, y su pequeño taller se convirtió en un punto de
+                        referencia en la comunidad. Inspirado por su éxito y la demanda creciente de sus productos,
+                        Juan decidió expandir su negocio y fundó JRC Muebles. A lo largo de los años, hemos evolucionado
+                        y diversificado nuestra oferta de productos para satisfacer las necesidades cambiantes de
+                        nuestros clientes. Desde muebles clásicos y elegantes hasta modernos diseños innovadores, hemos
+                        mantenido nuestro compromiso con la calidad y la artesanía excepcional en cada pieza que
+                        producimos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjetas con sombras para fotos y nombres/cargos -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow h-100 d-flex">
+                    <img src="{% static 'core/img/genteqla/weon1.jpg' %}" class="card-img-top img-fluid" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Juan Rodríguez</h5>
+                        <p class="card-text">Fundador y CEO</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow h-100 d-flex">
+                    <img src="{% static 'core/img/genteqla/weona2.jpg' %}" class="card-img-top img-fluid" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">María Pérez</h5>
+                        <p class="card-text">Directora de Operaciones</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow h-100 d-flex">
+                    <img src="{% static 'core/img/genteqla/weona3.jpg' %}" class="card-img-top img-fluid" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Marcela González</h5>
+                        <p class="card-text">Directora de Marketing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nueva sección para nuestros socios -->
+    <div class="container mt-5">
+        <div class="row justify-content-center mt-5">
+            <h2 class="text-center mb-4">Nuestros Socios</h2>
+            <div class="col-md-3 mb-4">
+                <div class="card shadow h-100">
+                    <img src="{% static 'core/img/logos/cchc.jpg' %}" class="card-img-top img-fluid" alt="...">
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card shadow h-100">
+                    <img src="{% static 'core/img/logos/compromiso-pro.svg' %}" class="card-img-top img-fluid" alt="...">
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card shadow h-100">
+                    <img src="{% static 'core/img/logos/logo-conferencia-internacional-ciudad.svg' %}" class="card-img-top img-fluid" alt="...">
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card shadow h-100">
+                    <img src="{% static 'core/img/logos/semana-logo.png' %}" class="card-img-top img-fluid" alt="...">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Social Media Links -->
+                <div class="col-md-4 my-auto text-center text-md-left">
+                    <p class="lead">Síguenos en nuestras redes sociales:</p>
+                    <div class="social-links">
+                        <a href="#" class="me-3 text-white"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="col-md-4 my-auto text-center">
+                    <p class="lead">Contáctanos:</p>
+                    <p><i class="bi bi-geo-alt-fill"></i> Av. Príncipe de Gales #927, Santiago, Chile</p>
+                    <p><i class="bi bi-telephone-fill"></i> +56 9 2861 395</p>
+                    <p><i class="bi bi-envelope-fill"></i> info@jrcferreteria.com</p>
+                </div>
+
+                <!-- Developer Information -->
+                <div class="col-md-4 my-auto text-center text-md-right">
+                    <p class="lead">Desarrollado por:</p>
+                    <p><span class="brand">Doofenshmirtz Malvados y Asociados</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
