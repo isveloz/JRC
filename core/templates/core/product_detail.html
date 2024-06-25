@@ -1,0 +1,158 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ producto.Nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Imagen del producto -->
+        <div class="col-md-6 mb-5">
+            <img src="{{ producto.imagen.url }}" class="img-fluid rounded" alt="{{ producto.Nombre }}">
+        </div>
+        <!-- Detalles del producto -->
+        <div class="col-md-6 mb-5">
+            <h2>{{ producto.Nombre }}</h2>
+            <p>{{ producto.descripcion }}</p>
+            <h3 class="text-success"><strong>${{ producto.precio }}</strong></h3>
+            <!-- Calculadora de cantidades -->
+            <div class="input-group mb-3">
+                <button class="btn btn-outline-secondary" type="button" id="btn-decrease">-</button>
+                <input type="number" class="form-control" id="quantity" value="1" min="1">
+                <button class="btn btn-outline-secondary" type="button" id="btn-increase">+</button>
+            </div>
+            <h4>Total: $<span id="total">{{ producto.precio }}</span></h4>
+            <form action="{% url 'agregar_al_carrito' producto.id %}" method="post" class="d-flex justify-content-between align-items-center">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" id="hidden-quantity" value="1">
+                <button type="submit" class="btn btn-primary btn-lg me-2">Añadir al carrito</button>
+                <button type="button" class="btn btn-success btn-lg">Comprar ahora</button>
+            </form>
+
+            <div class="mt-4">
+                <h4>Especificaciones Técnicas</h4>
+                <ul>
+                    <li><i class="bi bi-lightning-charge-fill"></i> Potencia: 750W</li>
+                    <li><i class="bi bi-speedometer2"></i> Velocidad: 11000 RPM</li>
+                    <li><i class="bi bi-disc"></i> Diámetro del disco: 4.5"</li>
+                    <li><i class="bi bi-weight"></i> Peso: 2.5 kg</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comentarios de Usuarios -->
+    <div class="mt-5">
+        <h4>Comentarios de Usuarios</h4>
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-person-circle"></i> Juan Pérez</h5>
+                <p class="card-text">Muy buen producto, cumple con todas mis expectativas. El envío fue rápido y el empaquetado excelente.</p>
+                <p class="text-muted">Publicado el 25 de mayo de 2024</p>
+            </div>
+        </div>
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-person-circle"></i> Ana Gómez</h5>
+                <p class="card-text">Calidad y precio insuperables. Lo recomiendo 100%.</p>
+                <p class="text-muted">Publicado el 24 de mayo de 2024</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de valoraciones -->
+    <div class="mt-5">
+        <h2>Valoraciones</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="review mb-3">
+                    <h4><i class="bi bi-person-circle"></i> David</h4>
+                    <p>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star text-warning"></i>
+                        Excelente producto, muy útil y de buena calidad. Lo recomendaría a cualquier persona interesada en este tipo de productos.
+                    </p>
+                </div>
+                <div class="review mb-3">
+                    <h4><i class="bi bi-person-circle"></i> Franco</h4>
+                    <p>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star text-warning"></i>
+                        <i class="bi bi-star text-warning"></i>
+                        El producto cumple con mis expectativas, aunque la entrega fue un poco lenta. En general, estoy satisfecho con mi compra.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="review mb-3">
+                    <h4><i class="bi bi-person-circle"></i> Antonia</h4>
+                    <p>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star text-warning"></i>
+                        <i class="bi bi-star text-warning"></i>
+                        <i class="bi bi-star text-warning"></i>
+                        Buen producto, pero tuve algunos problemas con la instalación. El servicio al cliente fue útil para resolver mis dudas.
+                    </p>
+                </div>
+                <div class="review mb-3">
+                    <h4><i class="bi bi-person-circle"></i> Mateo</h4>
+                    <p>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        ¡Increíble! Este producto superó mis expectativas. Lo uso a diario y no he tenido ningún problema hasta ahora.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.review i.bi {
+    margin-right: 0.5rem;
+}
+
+.review p {
+    margin-top: 0.5rem;
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const price = parseFloat("{{ producto.precio }}");
+        const quantityInput = document.getElementById('quantity');
+        const totalSpan = document.getElementById('total');
+        const hiddenQuantityInput = document.getElementById('hidden-quantity');
+
+        function updateTotal() {
+            const quantity = parseInt(quantityInput.value);
+            const total = price * quantity;
+            totalSpan.textContent = total.toFixed(2);
+            hiddenQuantityInput.value = quantity;
+        }
+
+        document.getElementById('btn-decrease').addEventListener('click', function() {
+            if (quantityInput.value > 1) {
+                quantityInput.value--;
+                updateTotal();
+            }
+        });
+
+        document.getElementById('btn-increase').addEventListener('click', function() {
+            quantityInput.value++;
+            updateTotal();
+        });
+
+        quantityInput.addEventListener('change', updateTotal);
+    });
+</script>
+{% endblock %}

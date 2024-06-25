@@ -1,0 +1,2 @@
+core/static/core/img/logos/xampp-windows-x64-8.0.30-0-VS16-installer.exe filter=lfs diff=lfs merge=lfs -text
+staticfiles/core/img/logos/xampp-windows-x64-8.0.30-0-VS16-installer.exe filter=lfs diff=lfs merge=lfs -text

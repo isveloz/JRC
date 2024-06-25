@@ -1,0 +1,8 @@
+# Ignorar archivos grandes
+*.exe
+*.zip
+*.tar.gz
+
+# Ignorar archivos temporales
+*.log
+*.tmp

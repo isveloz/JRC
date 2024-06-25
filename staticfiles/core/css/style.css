@@ -1,0 +1,58 @@
+/* Estilos personalizados */
+
+/* Navbar con gradiente */
+.navbar.bg-gradient {
+    background: linear-gradient(90deg, rgba(0, 123, 255, 1) 0%, rgb(231, 231, 231) 100%);
+}
+
+/* Iconos y logo en la barra de navegación */
+.navbar-brand img {
+    height: 40px;
+}
+
+.navbar-toggler i {
+    font-size: 1.5rem; /* Ajusta el tamaño del icono según sea necesario */
+    color: white; /* Asegura que el color del icono sea blanco */
+}
+
+/* Footer */
+.footer {
+    background-color: #f9f9f9; /* Fondo oscuro */
+    color: white;
+    padding: 20px 0;
+}
+
+.footer .lead {
+    margin-bottom: 10px;
+}
+
+.footer .social-links a {
+    color: white;
+    margin-right: 10px;
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.footer .social-links a:hover {
+    transform: scale(1.2);
+}
+
+.footer .bi {
+    font-size: 1.5rem;
+    margin-right: 8px;
+}
+
+.footer .brand {
+    font-weight: bold;
+    color: #dfdfdc;
+}
+
+@media (max-width: 768px) {
+    .footer .text-md-left, 
+    .footer .text-md-right {
+        text-align: center;
+    }
+    .footer .my-auto {
+        margin-bottom: 20px;
+    }
+}

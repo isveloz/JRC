@@ -1,0 +1,16 @@
+<!-- templates/core/transaccion_exitosa.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transacción Exitosa</title>
+</head>
+<body>
+    <h1>Transacción Exitosa</h1>
+    <p>Detalles de la transacción:</p>
+    <ul>
+        <li>Orden de compra: {{ response.buy_order }}</li>
+        <li>Monto: {{ response.amount }}</li>
+        <li>Estado: {{ response.status }}</li>
+    </ul>
+</body>
+</html>
