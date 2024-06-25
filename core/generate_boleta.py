@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 from reportlab.lib.pagesizes import letter # type: ignore
 from reportlab.pdfgen import canvas # type: ignore
+=======
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+>>>>>>> 20240184a39f3dd54aaedf7da6908bf5f7d8fab5
 import io
 from django.http import FileResponse
 
